@@ -2,7 +2,7 @@
 
 julia_version = "1.8.1"
 manifest_format = "2.0"
-project_hash = "c2fda42ae91eda8e432f6e54fc55dfec94c54938"
+project_hash = "bd5ea9fa265b696d503a8351457061339aa12e95"
 
 [[deps.ArgParse]]
 deps = ["Logging", "TextWrap"]
@@ -104,6 +104,12 @@ deps = ["ArgParse", "Dates", "Distributed", "EzXML", "FilePathsBase", "HTTP", "H
 git-tree-sha1 = "433a84ffef389e4a1753a28077dc54ead247f1e7"
 uuid = "c43c736e-a2d1-11e8-161f-af95117fbd1e"
 version = "5.5.0"
+
+[[deps.GeniePlugins]]
+deps = ["Genie", "Logging", "Markdown", "Pkg"]
+path = "/Users/abhi/.julia/dev/GeniePlugins"
+uuid = "07906039-e6ad-44b0-b988-2f2de6a70eec"
+version = "1.0.0"
 
 [[deps.HTTP]]
 deps = ["Base64", "CodecZlib", "Dates", "IniFile", "Logging", "LoggingExtras", "MbedTLS", "NetworkOptions", "Random", "SimpleBufferStream", "Sockets", "URIs", "UUIDs"]
