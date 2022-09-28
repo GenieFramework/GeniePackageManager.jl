@@ -10,13 +10,13 @@
 <body>
   <div class="container" id="app">
     <h3 class="text-left">Installed Packages</h3>
-    <div class="columns medium-4" v-for="(version, package_name) in results">
+    <div class="columns medium-4" v-for="(version, packageName) in results">
       <div class="card">
         <div class="card-section">
-          <p> {{ package_name }} | v{{version}} </p>
-          <a href="#" class="button success">Update</a>
+          <p> {{ packageName }} | v{{version}} </p>
+          <a class="button success" @click="AddPackage(packageName)">Update</a>
           <br/>
-          <a href="#" class="button alert">Remove</a>
+          <a class="button alert" @click="RemovePackage">Remove</a>
         </div>
       </div>
     </div>
