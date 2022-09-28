@@ -74,4 +74,9 @@ function update_all_packages()
   end
 end
 
+function get_packages()
+  # call pkgs.genieframework.com API to get package list
+  
+end
+
 end # module GeniePackageManager
