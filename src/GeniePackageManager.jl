@@ -3,8 +3,12 @@ module GeniePackageManager
 using Genie
 using GeniePlugins
 using Genie.Renderer.Json
+using Genie.HTTPUtils.HTTP
 using Pkg
 using TOML
+using Random
+
+const PKGLISTURL = "https://raw.githubusercontent.com/JuliaRegistries/General/master/Registry.toml"
 
 function install(dest::String; force = false)
   src = abspath(normpath(joinpath(@__DIR__, "..", GeniePlugins.FILES_FOLDER)))
@@ -26,6 +30,22 @@ function list_packages()
   return installs |> json
 end
 
+function get_packages() :: Dict{String,Any}
+  try
+    withcache(randstring(12), 24 * 60 * 60) do
+      Dict("packages" => 
+          [package_info["name"] for package_info in values(((HTTP.get(PKGLISTURL).body |> String) |> TOML.parse)["packages"])] 
+      ) |> json
+    end
+  catch e
+    return Dict("error" => e) |> json
+  end
+end
+
+module API
+
+module V1
+
 function add()
   try
     package = params(:package)
@@ -33,17 +53,19 @@ function add()
     return Dict(:status => "ok", :message => "Package $package added") |> json
   catch e
     return Dict("error" => e) |> json
+  end
 end
 
-function add_with_version()
-  try
-    package = params(:package)
-    version = params(:version)
-    Pkg.add(name=package, version=version)
-    return Dict(:status => "ok", :message => "Package $package@$version added") |> json
-  catch e
-    return Dict("error" => e) |> json
-  end
+# function add_with_version()
+#   try
+#     package = params(:package)
+#     version = params(:version)
+#     Pkg.add(name=package, version=version)
+#     return Dict(:status => "ok", :message => "Package $package@$version added") |> json
+#   catch e
+#     return Dict("error" => e) |> json
+#   end
+# end
 
 function remove_package()
   try
@@ -65,18 +87,15 @@ function update_package()
   end
 end
 
-function update_all_packages()
-  try
-    Pkg.update()
-    return Dict(:status => "ok", :message => "All packages updated") |> json
-  catch e
-    return Dict("error" => e) |> json
-  end
-end
+# function update_all_packages()
+#   try
+#     Pkg.update()
+#     return Dict(:status => "ok", :message => "All packages updated") |> json
+#   catch e
+#     return Dict("error" => e) |> json
+#   end
+# end
 
-function get_packages()
-  # call pkgs.genieframework.com API to get package list
-  
-end
-
+end # module V1
+end # module API
 end # module GeniePackageManager
