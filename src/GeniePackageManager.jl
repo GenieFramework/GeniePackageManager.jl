@@ -62,16 +62,16 @@ function add()
   end
 end
 
-# function add_with_version()
-#   try
-#     package = params(:package)
-#     version = params(:version)
-#     Pkg.add(name=package, version=version)
-#     return Dict(:status => "ok", :message => "Package $package@$version added") |> json
-#   catch e
-#     return Dict("error" => e) |> json
-#   end
-# end
+function add_with_version()
+  try
+    package = params(:package)
+    version = params(:version)
+    Pkg.add(name=package, version=version)
+    return Dict(:status => "ok", :message => "Package $package@$version added") |> json
+  catch e
+    return Dict("error" => e) |> json
+  end
+end
 
 function remove_package()
   try
