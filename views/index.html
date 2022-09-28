@@ -14,9 +14,9 @@
       <div class="card">
         <div class="card-section">
           <p> {{ packageName }} | v{{version}} </p>
-          <a class="button success" @click="AddPackage(packageName)">Update</a>
+          <a class="button success" @click="UpdatePackage(packageName)">Update</a>
           <br/>
-          <a class="button alert" @click="RemovePackage">Remove</a>
+          <a class="button alert" @click="RemovePackage(packageName)">Remove</a>
         </div>
       </div>
     </div>

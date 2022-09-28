@@ -13,16 +13,17 @@ createApp({
     },
     methods: {
         AddPackage(packageName) {
-            console.log(packageName);
-
-            axios.post(packageManagerBaseUrl+packageName+"add").then(response => {
+            axios.post(packageManagerBaseUrl+packageName+"/add").then(response => {
                 console.log(response);
             })
         },
         RemovePackage(packageName) {
-            console.log(packageName);
-
-            axios.post(api+packageName+"remove").then(response => {
+            axios.post(packageManagerBaseUrl+packageName+"/remove").then(response => {
+                console.log(response);
+            })
+        },
+        UpdatePackage(packageName) {
+            axios.post(packageManagerBaseUrl+packageName+"/update").then(response => {
                 console.log(response);
             })
         }
