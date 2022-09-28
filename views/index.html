@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/foundation/6.3.1/css/foundation.min.css">
+  <meta charset="utf-8">
+  <title>Genie Package Manager</title>
+</head>
+
+<body>
+  <div class="container" id="app">
+    <h3 class="text-left">Installed Packages</h3>
+    <div class="columns medium-4" v-for="(version, package_name) in results">
+      <div class="card">
+        <div class="card-section">
+          <p> {{ package_name }} | v{{version}} </p>
+          <a href="#" class="button success">Update</a>
+          <br/>
+          <a href="#" class="button alert">Remove</a>
+        </div>
+      </div>
+    </div>
+
+    <form>
+      <div class="row">
+        <div class="large-12 columns">
+          <label>
+            <h4>Add Packages</h4>
+            <input type="text" placeholder="Search Packages" />
+          </label>
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <script src="https://unpkg.com/vue@3"></script>
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+  <script src="index.js"></script>
+</body>
+
+</html>
