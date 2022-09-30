@@ -62,6 +62,16 @@ function add()
   end
 end
 
+function dev()
+  try
+    package = params(:package)
+    Pkg.develop(package)
+    return Dict(:status => "ok", :message => "Package $package added") |> json
+  catch e
+    return Dict("error" => e) |> json
+  end
+end
+
 function add_with_version()
   try
     package = params(:package)

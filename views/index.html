@@ -3,31 +3,53 @@
 
 <head>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/foundation/6.3.1/css/foundation.min.css">
+  <link rel="stylesheet" href="style.css">
   <meta charset="utf-8">
   <title>Genie Package Manager</title>
 </head>
 
 <body>
-  <div class="container" id="app">
-    <h3 class="text-left">Installed Packages</h3>
-    <div class="columns medium-4" v-for="(version, packageName) in results">
-      <div class="card">
+  <div class="container" id="app"> 
+    <div class="card-divider">
+      <h4>Installed Packages</h4>
+    </div>
+    <br/>
+
+    <div class="columns small-2" v-for="(version, packageName) in results">
+      <div class="card" style="width: 300px;">
         <div class="card-section">
           <p> {{ packageName }} | v{{version}} </p>
-          <a class="button success" @click="UpdatePackage(packageName)">Update</a>
-          <br/>
-          <a class="button alert" @click="RemovePackage(packageName)">Remove</a>
+
+          <div class="tiny button-group">
+            <a class="button" @click="updatePackage(packageName)">Update</a>
+            <a class="button secondary" @click="removePackage(packageName)">Remove</a>
+          </div>
+          
         </div>
       </div>
     </div>
 
     <form>
       <div class="row">
-        <div class="large-12 columns">
-          <label>
-            <h4>Add Packages</h4>
-            <input type="text" placeholder="Search Packages" />
-          </label>
+        <div class="medium-6 columns">
+        
+              <fieldset class="fieldset">
+                <legend>Install Package</legend>
+                
+                  <input 
+                  type="text" 
+                  placeholder="type name/git url of package" 
+                  v-model="toAddPackage"/>
+                
+                  <input 
+                  id="devpgk" 
+                  type="checkbox"
+                  v-model="dev"/>
+                  <label for="devpkg">dev package</label>
+
+                <a class="button tiny" @click="addPackage">Add Package</a>
+              </fieldset>
+
         </div>
       </div>
     </form>
@@ -36,7 +58,7 @@
   <script src="https://unpkg.com/vue@3"></script>
   <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 
-  <script src="index.js"></script>
+  <script src="main.js"></script>
 </body>
 
 </html>
