@@ -30,16 +30,18 @@ createApp({
             
         },
         removePackage(packageName) {
-            axios.post(packageManagerBaseUrl+packageName+"/remove").then(response => {
-                console.log(response);
-                window.location.reload();
-            })
+            if(confirm('are you sure you want to update ' + packageName + '?'))
+                axios.post(packageManagerBaseUrl+packageName+"/remove").then(response => {
+                    console.log(response);
+                    window.location.reload();
+                })
         },
         updatePackage(packageName) {
-            axios.post(packageManagerBaseUrl+packageName+"/update").then(response => {
-                console.log(response);
-                window.location.reload();
-            })
+            if(confirm('are you sure you want to remove ' + packageName + '?'))
+                axios.post(packageManagerBaseUrl+packageName+"/update").then(response => {
+                    console.log(response);
+                    window.location.reload();
+                })
         },
         // storePackageName(event) {
         //     this.toAddPackage = event.target.value;
