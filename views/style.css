@@ -1,0 +1,13 @@
+.card-divider{
+    background-color: aqua;
+}
+
+.button {
+    background-color: aqua;
+    color: black;
+}
+
+.button:hover{
+    background-color: rgb(147, 255, 255);
+    color: black;
+}
