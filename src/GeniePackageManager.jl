@@ -103,14 +103,14 @@ function update_package()
   end
 end
 
-# function update_all_packages()
-#   try
-#     Pkg.update()
-#     return Dict(:status => "ok", :message => "All packages updated") |> json
-#   catch e
-#     return Dict("error" => e) |> json
-#   end
-# end
+function update_all_packages()
+  try
+    Pkg.update()
+    return Dict(:status => "ok", :message => "All packages updated") |> json
+  catch e
+    return Dict("error" => e) |> json
+  end
+end
 
 end # module V1
 end # module API

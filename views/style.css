@@ -86,9 +86,9 @@
 /* install block side by side */
 
 .parent-install {
-    width: 100%;
+    width: 50%;
 }
 .child-install {
-    float: left; 
-    width: 50%; 
+    float: left;
+    width: 30%;
 }

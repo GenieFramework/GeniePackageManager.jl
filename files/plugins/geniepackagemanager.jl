@@ -13,3 +13,4 @@ route("/geniepackagemanager/api/v1/:package::String/dev", GeniePackageManager.AP
 route("/geniepackagemanager/api/v1/:package::String/:version::String/add", GeniePackageManager.API.V1.add_with_version, method = POST)
 route("geniepackagemanager/api/v1/:package::String/remove", GeniePackageManager.API.V1.remove_package, method = POST)
 route("/geniepackagemanager/api/v1/:package::String/update", GeniePackageManager.API.V1.update_package, method = POST)
+route("/geniepackagemanager/api/v1/updateall", GeniePackageManager.API.V1.update_all, method = GET)

@@ -25,21 +25,6 @@
         </li>
       </ul>
     </div>
-    
-    
-    <!-- <div class="columns small-2" v-for="(version, packageName) in results">
-      <div class="card" style="width: 300px;">
-        <div class="card-section">
-          <p> {{ packageName }} | v{{version}} </p>
-
-          <div class="tiny button-group">
-            <a class="button" @click="updatePackage(packageName)">Update</a>
-            <a class="button secondary" @click="removePackage(packageName)">Remove</a>
-          </div>
-          
-        </div>
-      </div>
-    </div> -->
 
     <form>
       <div class="row">
@@ -53,17 +38,31 @@
                     placeholder="type name/git url of package" 
                     v-model="toAddPackage"/>
                   </div>
-                  <div class="child-install"> 
+                  <!-- <div class="child-install">  -->
                     <input 
                     id="devpgk" 
                     type="checkbox"
                     v-model="dev"/>
                     <label for="devpkg">dev package</label>
                     <a class="button tiny" @click="addPackage">Add Package</a>
-                  </div>
+                  <!-- </div> -->
               </fieldset>
-
         </div>
+
+        <div class="medium-6 columns parent-install">
+        
+          <fieldset class="fieldset">
+            <legend>Update all Packages</legend>
+              
+              <input 
+              id="devpgk" 
+              type="checkbox"
+              v-model="dev"/>
+              <label for="devpkg">Are you sure you want to update all packages?</label>
+              <a class="button tiny" @click="addPackage">Update all</a>
+        
+          </fieldset>
+    </div>
       </div>
     </form>
   </div> <!-- end container -->
