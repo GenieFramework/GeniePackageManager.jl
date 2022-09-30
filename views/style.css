@@ -11,3 +11,85 @@
     background-color: rgb(147, 255, 255);
     color: black;
 }
+
+
+/* list group */
+
+
+.list-group {
+  margin-bottom: 1rem;
+  border: 1px solid #e6e6e6;
+  border-radius: 0;
+  background: #fefefe;
+  box-shadow: none;
+  overflow: hidden;
+  color: #0a0a0a;
+}
+
+.list-group > :last-child {
+  margin-bottom: 0;
+}
+
+.list-group-item {
+  padding: 1rem;
+  border-bottom: 1px solid #e6e6e6;
+}
+
+.list-group-item > :last-child {
+  margin-bottom: 0;
+  border-bottom: none;
+}
+
+.list-group-item.active {
+  color: #000000;
+  background-color: #ffffff;
+  border-color: 1px solid #1779ba;
+}
+
+.list-group-item:hover, .list-group-item:focus {
+  background-color: #e6e6e6;
+}
+
+.list-group-item:hover .update-button{
+    background-color: #ffffff;
+}
+  
+
+.list-group-item:hover.active, .list-group-item:focus.active {
+  background-color: aqua;
+}
+
+.list-group-item.disabled, .list-group-item.disabled:hover, .list-group-item.disabled:focus, .list-group-item[disabled], .list-group-item[disabled]:hover, .list-group-item[disabled]:focus {
+  color: #8a8a8a;
+  cursor: not-allowed;
+  background-color: #fefefe;
+}
+
+
+/* Make elements side by side */
+
+.parent {
+    width: 100%;
+} 
+.child-label {
+    float: left; 
+    width: 50%; 
+}
+.child-button {
+    float: right; 
+    width: 50%; 
+}
+
+/* install block side by side */
+
+.parent-install {
+    width: 100%;
+} 
+.child-install {
+    float: left; 
+    width: 50%; 
+}
+
+.card-divider {
+    margin-bottom: 30px;
+}

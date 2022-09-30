@@ -13,9 +13,21 @@
     <div class="card-divider">
       <h4>Installed Packages</h4>
     </div>
-    <br/>
 
-    <div class="columns small-2" v-for="(version, packageName) in results">
+    <div class="parent">
+      <ul class="list-group" v-for="(version, packageName) in results">
+        <li class="list-group-item active">
+            <div class="child-label"> {{ packageName }} | v{{version}} </div>
+            <div class="tiny child-button button-group">
+              <a class="button update-button" @click="updatePackage(packageName)">Update</a>
+              <a class="button secondary" @click="removePackage(packageName)">Remove</a>
+            </div>
+        </li>
+      </ul>
+    </div>
+    
+    
+    <!-- <div class="columns small-2" v-for="(version, packageName) in results">
       <div class="card" style="width: 300px;">
         <div class="card-section">
           <p> {{ packageName }} | v{{version}} </p>
@@ -27,33 +39,37 @@
           
         </div>
       </div>
-    </div>
+    </div> -->
 
     <form>
       <div class="row">
-        <div class="medium-6 columns">
+        <div class="medium-6 columns parent-install">
         
               <fieldset class="fieldset">
                 <legend>Install Package</legend>
                 
-                  <input 
-                  type="text" 
-                  placeholder="type name/git url of package" 
-                  v-model="toAddPackage"/>
+                  <div class="child-install">
+                    <input 
+                    type="text" 
+                    placeholder="type name/git url of package" 
+                    v-model="toAddPackage"/>
+                    </div>
+                   
+                  <div class="child-install"> 
+                    <input 
+                    id="devpgk" 
+                    type="checkbox"
+                    v-model="dev"/>
+                    <label for="devpkg">dev package</label>
+                    <a class="button tiny" @click="addPackage">Add Package</a>
+                  </div>
                 
-                  <input 
-                  id="devpgk" 
-                  type="checkbox"
-                  v-model="dev"/>
-                  <label for="devpkg">dev package</label>
-
-                <a class="button tiny" @click="addPackage">Add Package</a>
               </fieldset>
 
         </div>
       </div>
     </form>
-  </div>
+  </div> <!-- end container -->
 
   <script src="https://unpkg.com/vue@3"></script>
   <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
