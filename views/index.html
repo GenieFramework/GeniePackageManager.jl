@@ -32,6 +32,11 @@
         
               <fieldset class="fieldset">
                 <legend>Install Package</legend>
+                  <ul>
+                    <li>input package by name i.e. <code>Genie</code></li>
+                    <li>or input package by name and version i.e. <code>Genie@4.17.2</code></li>
+                    <li>or by github url i.e. <code>https://github.com/GenieFramework/Genie.jl.git</code></li>
+                  </ul>
                   <div class="child-install">
                     <input 
                     type="text" 
@@ -53,6 +58,8 @@
         
           <fieldset class="fieldset">
             <legend>Update all Packages</legend>
+              <p>Note: This functionality may break your application and force you to manually
+              resolve package conflicts. Use with caution.</p>
               
               <input 
               id="uppkgs" 
