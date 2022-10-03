@@ -19,8 +19,8 @@
         <li class="list-group-item active">
             <div class="child-label"> {{ packageName }} | v{{version}} </div>
             <div class="tiny child-button button-group">
-              <a class="button update-button" @click="updatePackage(packageName)">Update</a>
-              <a class="button secondary" @click="removePackage(packageName)">Remove</a>
+              <a class="button update-button" @click="updatePackage(packageName)"><span data-tooltip :title=" 'update package: '+ packageName + '?'">Update</span></a>
+              <a class="button secondary" @click="removePackage(packageName)"><span data-tooltip :title=" 'remove package: ' + packageName + '?'">Remove</span></a>
             </div>
         </li>
       </ul>
@@ -44,7 +44,7 @@
                     type="checkbox"
                     v-model="dev"/>
                     <label for="devpkg">dev package</label>
-                    <a class="button tiny" @click="addPackage">Add Package</a>
+                    <a class="button tiny" @click="addPackage"><span data-tooltip :title=" 'Add Package ' + toAddPackage + '?'">Add</span></a>
                   <!-- </div> -->
               </fieldset>
         </div>
@@ -59,7 +59,7 @@
               type="checkbox"
               v-model="updateAll"/>
               <label for="uppkgs">Are you sure you want to update all packages?</label>
-              <a class="button tiny" @click="addPackage">Update all</a>
+              <a class="button tiny" @click="addPackage"><span data-tooltip title="Update all Packages?">Update</span></a>
         
           </fieldset>
     </div>
