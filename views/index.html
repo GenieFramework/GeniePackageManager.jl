@@ -40,7 +40,7 @@
                   </div>
                   <!-- <div class="child-install">  -->
                     <input 
-                    id="devpgk" 
+                    id="devpkg" 
                     type="checkbox"
                     v-model="dev"/>
                     <label for="devpkg">dev package</label>
@@ -55,10 +55,10 @@
             <legend>Update all Packages</legend>
               
               <input 
-              id="devpgk" 
+              id="uppkgs" 
               type="checkbox"
-              v-model="dev"/>
-              <label for="devpkg">Are you sure you want to update all packages?</label>
+              v-model="updateAll"/>
+              <label for="uppkgs">Are you sure you want to update all packages?</label>
               <a class="button tiny" @click="addPackage">Update all</a>
         
           </fieldset>

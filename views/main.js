@@ -10,11 +10,17 @@ createApp({
         return {
             results: {},
             toAddPackage: "",
-            dev: false
+            dev: false,
+            updateAll: false,
         }
     },
     methods: {
         addPackage() {
+            // if package name ends with '.jl' remove it
+            if (toAddPackage.endsWith(".jl")) {
+                this.toAddPackage = this.toAddPackage.slice(0, -3)
+            }
+
             if (this.dev == false) {
                 axios.post(packageManagerBaseUrl+this.toAddPackage+"/add").then(response => {
                     console.log(response);
@@ -37,15 +43,13 @@ createApp({
                 })
         },
         updatePackage(packageName) {
-            if(confirm('are you sure you want to remove ' + packageName + '?'))
-                axios.post(packageManagerBaseUrl+packageName+"/update").then(response => {
-                    console.log(response);
-                    window.location.reload();
-                })
+            if(confirm('are you sure you want to update all packages? ' + packageName + '?'))
+                if (this.updatePackage == true)
+                    axios.post(packageManagerBaseUrl+packageName+"/update").then(response => {
+                        console.log(response);
+                        window.location.reload();
+                    })
         },
-        // storePackageName(event) {
-        //     this.toAddPackage = event.target.value;
-        // }
     },
     mounted() {
         axios.get(index).then(response => {
