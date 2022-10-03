@@ -8,7 +8,7 @@ const {
 createApp({
     data() {
         return {
-            results: {},
+            results: { CSV: "0.10.4", GenieSessionFileSession: "1.1.0", Genie: "5.5.0", StippleUI: "0.20.2", Stipple: "0.25.3", HTTP: "1.4.0", OrderedCollections: "1.4.1", SwagUI: "0.10.0", SearchLight: "2.7.1", SearchLightPostgreSQL: "2.3.2"},
             toAddPackage: "",
             dev: false,
             updateAll: false,
@@ -66,6 +66,7 @@ createApp({
     },
     mounted() {
         axios.get(index).then(response => {
+            console.log(response.data)
             this.results = response.data
         })
 
