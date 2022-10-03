@@ -28,24 +28,44 @@ createApp({
                 })
             }
             else{
+                
+                repoLink = this.toAddPackage;
+                repoUrl = new URL(repoLink);
+
                 // if package name ends with '.jl' remove it
                 if (this.toAddPackage.endsWith(".jl")) {
                     this.toAddPackage = this.toAddPackage.slice(0, -3)
                 }
 
-                if (this.dev == false) {
-                    console.log("installing package: " + this.toAddPackage);
-                    axios.post(packageManagerBaseUrl+this.toAddPackage+"/add").then(response => {
+                // if toAddPackage is a github/gitlab link
+                if (repoUrl.protocol == "https:" || repoUrl.protocol == "http:") {
+                    urlSplit = repoUrl.split("/");
+                    packageName = urlSplit[urlSplit.length-1];
+                    orgName = urlSplit[urlSplit.length-2];
+
+                    pkgSplit = packageName.split(".")
+                    pkgName = pkgSplit[0];
+
+                    axios.post(packageManagerBaseUrl+orgName+"/"+pkgName+"/add").then(response => {
                         console.log(response);
                         window.location.reload();
                     })
-                }
+                } // if toAddPackage is a package name
                 else {
-                    console.log("installing package" + this.toAddPackage + "in dev mode");
-                    axios.post(packageManagerBaseUrl+this.toAddPackage+"/dev").then(response => {
-                        console.log(response);
-                        window.location.reload();
-                    })
+                    if (this.dev == false) {
+                        if (this.toAddPackage == )
+                        axios.post(packageManagerBaseUrl+this.toAddPackage+"/add").then(response => {
+                            console.log(response);
+                            window.location.reload();
+                        })
+                    }
+                    else {
+                        console.log("installing package" + this.toAddPackage + "in dev mode");
+                        axios.post(packageManagerBaseUrl+this.toAddPackage+"/dev").then(response => {
+                            console.log(response);
+                            window.location.reload();
+                        })
+                    }
                 }
             }
             
