@@ -19,7 +19,7 @@ createApp({
             // if package contains @ split it by packageName and version
             if (this.toAddPackage.includes('@')) {
                 const pkgSplit = this.toAddPackage.split("@");
-                toAddPackage = pkgSlit[0];
+                toAddPackage = pkgSplit[0];
                 version = pkgSplit[1];
 
                 axios.post(packageManagerBaseUrl+toAddPackage+"/"+version+"/add").then(response => {
@@ -34,12 +34,14 @@ createApp({
                 }
 
                 if (this.dev == false) {
+                    console.log("installing package: " + this.toAddPackage);
                     axios.post(packageManagerBaseUrl+this.toAddPackage+"/add").then(response => {
                         console.log(response);
                         window.location.reload();
                     })
                 }
                 else {
+                    console.log("installing package" + this.toAddPackage + "in dev mode");
                     axios.post(packageManagerBaseUrl+this.toAddPackage+"/dev").then(response => {
                         console.log(response);
                         window.location.reload();
@@ -56,13 +58,19 @@ createApp({
                 })
         },
         updatePackage(packageName) {
-            if(confirm('are you sure you want to update all packages? ' + packageName + '?'))
-                if (this.updatePackage == true)
-                    axios.post(packageManagerBaseUrl+packageName+"/update").then(response => {
-                        console.log(response);
-                        window.location.reload();
-                    })
+            if(confirm('are you sure you want to update package: ' + packageName + '?'))
+                axios.post(packageManagerBaseUrl+packageName+"/update").then(response => {
+                    console.log(response);
+                    window.location.reload();
+                })
         },
+        updateAllPackages() {
+            if(confirm('are you sure you want to update all packages?'))
+                axios.post(packageManagerBaseUrl+"update_all_packages").then(response => {
+                    console.log(response);
+                    window.location.reload();
+                })
+        }
     },
     mounted() {
         axios.get(index).then(response => {
