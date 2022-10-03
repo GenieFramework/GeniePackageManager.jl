@@ -53,7 +53,6 @@ createApp({
                 } // if toAddPackage is a package name
                 else {
                     if (this.dev == false) {
-                        if (this.toAddPackage == )
                         axios.post(packageManagerBaseUrl+this.toAddPackage+"/add").then(response => {
                             console.log(response);
                             window.location.reload();
