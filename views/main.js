@@ -16,22 +16,35 @@ createApp({
     },
     methods: {
         addPackage() {
-            // if package name ends with '.jl' remove it
-            if (toAddPackage.endsWith(".jl")) {
-                this.toAddPackage = this.toAddPackage.slice(0, -3)
-            }
+            // if package contains @ split it by packageName and version
+            if (this.toAddPackage.includes('@')) {
+                const pkgSplit = this.toAddPackage.split("@");
+                toAddPackage = pkgSlit[0];
+                version = pkgSplit[1];
 
-            if (this.dev == false) {
-                axios.post(packageManagerBaseUrl+this.toAddPackage+"/add").then(response => {
+                axios.post(packageManagerBaseUrl+toAddPackage+"/"+version+"/add").then(response => {
                     console.log(response);
                     window.location.reload();
                 })
             }
-            else {
-                axios.post(packageManagerBaseUrl+this.toAddPackage+"/dev").then(response => {
-                    console.log(response);
-                    window.location.reload();
-                })
+            else{
+                // if package name ends with '.jl' remove it
+                if (this.toAddPackage.endsWith(".jl")) {
+                    this.toAddPackage = this.toAddPackage.slice(0, -3)
+                }
+
+                if (this.dev == false) {
+                    axios.post(packageManagerBaseUrl+this.toAddPackage+"/add").then(response => {
+                        console.log(response);
+                        window.location.reload();
+                    })
+                }
+                else {
+                    axios.post(packageManagerBaseUrl+this.toAddPackage+"/dev").then(response => {
+                        console.log(response);
+                        window.location.reload();
+                    })
+                }
             }
             
         },
