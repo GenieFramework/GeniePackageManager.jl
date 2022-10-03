@@ -23,25 +23,30 @@ html{
 
 #app{
   background-color: #F9F8F6;
+  padding-bottom:60px;
 }
 .container.installed-packages{
   margin:0!important;
 }
 h4{
   font-weight:500;
-  font-size:22px;
+  font-size:24px;
   margin-bottom:0;
 }
 
 .card-divider{
     background-color: white;
-    margin-bottom: 30px;
+    margin-top:30px;
+    margin-bottom: 10px;
     color:#4A4947;
-    box-shadow: 0px 4px 10px 0px #0000001A;
+    /* box-shadow: 0px 4px 10px 0px #0000001A; */
     padding-top:1.4rem;
-    padding-bottom:1.4rem;
+    /* padding-bottom:1.4rem; */
+    background-color: #F9F8F6;
 
 }
+
+
 div.parent.container-fluid{
   margin:0!important;
 }
@@ -121,10 +126,12 @@ div.parent.container-fluid{
 .row{
   max-width:none!important;
 }
+
 fieldset{
   border-radius:3px;
   background-color:white!important;
   border:1px solid #E7E6E3!important;
+  height:100%!important;
 }
 fieldset>legend{
   background:transparent!important;
