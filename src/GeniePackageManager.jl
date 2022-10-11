@@ -83,6 +83,18 @@ function add_with_version()
   end
 end
 
+function add_with_url()
+  try
+    org = params(:org)
+    repo = params(:repo)
+    url = "https://github.com/" + org + "/" + repo + ".jl.git"
+    Pkg.add(url)
+    return Dict(:status => "ok", :message => "Package $url added") |> json
+  catch e
+    return Dict("error" => e) |> json
+  end
+end
+
 function remove_package()
   try
     package = params(:package)

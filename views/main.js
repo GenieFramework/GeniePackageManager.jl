@@ -19,7 +19,7 @@ createApp({
             // if package contains @ split it by packageName and version
             if (this.toAddPackage.includes('@')) {
                 const pkgSplit = this.toAddPackage.split("@");
-                toAddPackage = pkgSlit[0];
+                toAddPackage = pkgSplit[0];
                 version = pkgSplit[1];
 
                 axios.post(packageManagerBaseUrl+toAddPackage+"/"+version+"/add").then(response => {
@@ -28,22 +28,43 @@ createApp({
                 })
             }
             else{
+                
+                repoLink = this.toAddPackage;
+                repoUrl = new URL(repoLink);
+
                 // if package name ends with '.jl' remove it
                 if (this.toAddPackage.endsWith(".jl")) {
                     this.toAddPackage = this.toAddPackage.slice(0, -3)
                 }
 
-                if (this.dev == false) {
-                    axios.post(packageManagerBaseUrl+this.toAddPackage+"/add").then(response => {
+                // if toAddPackage is a github/gitlab link
+                if (repoUrl.protocol == "https:" || repoUrl.protocol == "http:") {
+                    urlSplit = repoUrl.split("/");
+                    packageName = urlSplit[urlSplit.length-1];
+                    orgName = urlSplit[urlSplit.length-2];
+
+                    pkgSplit = packageName.split(".")
+                    pkgName = pkgSplit[0];
+
+                    axios.post(packageManagerBaseUrl+orgName+"/"+pkgName+"/add").then(response => {
                         console.log(response);
                         window.location.reload();
                     })
-                }
+                } // if toAddPackage is a package name
                 else {
-                    axios.post(packageManagerBaseUrl+this.toAddPackage+"/dev").then(response => {
-                        console.log(response);
-                        window.location.reload();
-                    })
+                    if (this.dev == false) {
+                        axios.post(packageManagerBaseUrl+this.toAddPackage+"/add").then(response => {
+                            console.log(response);
+                            window.location.reload();
+                        })
+                    }
+                    else {
+                        console.log("installing package" + this.toAddPackage + "in dev mode");
+                        axios.post(packageManagerBaseUrl+this.toAddPackage+"/dev").then(response => {
+                            console.log(response);
+                            window.location.reload();
+                        })
+                    }
                 }
             }
             
@@ -56,13 +77,19 @@ createApp({
                 })
         },
         updatePackage(packageName) {
-            if(confirm('are you sure you want to update all packages? ' + packageName + '?'))
-                if (this.updatePackage == true)
-                    axios.post(packageManagerBaseUrl+packageName+"/update").then(response => {
-                        console.log(response);
-                        window.location.reload();
-                    })
+            if(confirm('are you sure you want to update package: ' + packageName + '?'))
+                axios.post(packageManagerBaseUrl+packageName+"/update").then(response => {
+                    console.log(response);
+                    window.location.reload();
+                })
         },
+        updateAllPackages() {
+            if(confirm('are you sure you want to update all packages?'))
+                axios.post(packageManagerBaseUrl+"update_all_packages").then(response => {
+                    console.log(response);
+                    window.location.reload();
+                })
+        }
     },
     mounted() {
         axios.get(index).then(response => {

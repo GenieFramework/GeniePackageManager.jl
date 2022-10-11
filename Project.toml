@@ -1,6 +1,6 @@
 name = "GeniePackageManager"
 uuid = "3bdcc7f3-4b7d-42a1-be8e-724ecf5e3574"
-authors = ["Abhi... <8083613+AbhimanyuAryan@users.noreply.github.com>"]
+authors = ["Genie Framework Team // genieframework.com"]
 version = "0.1.0"
 
 [deps]
