@@ -12,11 +12,13 @@ createApp({
             toAddPackage: "",
             dev: false,
             updateAll: false,
+            isUpdateDisabled: true
         }
     },
     methods: {
         addPackage() {
             // if package contains @ split it by packageName and version
+            console.log(this.toAddPackage);
             if (this.toAddPackage.includes('@')) {
                 const pkgSplit = this.toAddPackage.split("@");
                 toAddPackage = pkgSplit[0];
@@ -83,18 +85,37 @@ createApp({
                     window.location.reload();
                 })
         },
+        updateToggle() {
+            if (this.updateAll == true) {
+                this.isUpdateDisabled = false;
+            }else{
+                this.isUpdateDisabled = true;
+            }
+        },
         updateAllPackages() {
-            if(confirm('are you sure you want to update all packages?'))
-                axios.post(packageManagerBaseUrl+"update_all_packages").then(response => {
-                    console.log(response);
-                    window.location.reload();
-                })
+            if (this.isUpdateDisabled == false)
+                if(confirm('are you sure you want to update all packages?'))
+                    if(this.updateAll == true) {
+                        this.isUpdateDisabled = false;
+                        axios.post(packageManagerBaseUrl+"update_all_packages").then(response => {
+                            console.log(response);
+                            window.location.reload();
+                        })
+                    }
         }
     },
     mounted() {
         axios.get(index).then(response => {
             console.log(response.data)
-            this.results = response.data
+            obj = response.data
+            const sorted = Object.keys(obj)
+                .sort()
+                .reduce((accumulator, key) => {
+                    accumulator[key] = obj[key];
+
+                    return accumulator;
+                }, {});
+            this.results = sorted
         })
 
     }

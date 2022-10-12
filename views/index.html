@@ -10,27 +10,7 @@
 </head>
 
 <body>
-  <div id="app"> 
-    <div class="card-divider container-fluid">
-      <div class="container">
-        <h4>Installed Packages</h4>
-      </div>
-    </div>
-
-    <div class="parent container-fluid">
-      <div class="container">
-        <ul class="list-group container" v-for="(version, packageName) in results">
-          <li class="list-group-item active">
-              <div class="child-label"> {{ packageName }} | v{{version}} </div>
-              <div class="tiny child-button button-group">
-                <a class="button update-button" @click="updatePackage(packageName)"><span data-tooltip :title=" 'update package: '+ packageName + '?'">Update</span></a>
-                <a class="button secondary" @click="removePackage(packageName)"><span data-tooltip :title=" 'remove package: ' + packageName + '?'">Remove</span></a>
-              </div>
-          </li>
-        </ul>
-      </div>
-    </div>
-
+  <div id="app">
     <div class="container-fluid">
       <div class="container px-0">
       <form class="parent">
@@ -71,9 +51,10 @@
                   <input 
                   id="uppkgs" 
                   type="checkbox"
-                  v-model="updateAll"/>
+                  v-model="updateAll"
+                  @change="updateToggle($event)"/>
                   <label for="uppkgs">Are you sure you want to update all packages?</label>
-                  <a class="button tiny" @click="updateAllPackages"><span data-tooltip title="Update all Packages?">Update</span></a>
+                  <a v-bind:class="{ disabled: isUpdateDisabled} " class="button tiny" @click="updateAllPackages"><span data-tooltip title="Update all Packages?">Update</span></a>
             
               </fieldset>
             </div>
@@ -82,6 +63,27 @@
       </form>
     </div>
     </div>
+
+    <div class="card-divider container-fluid">
+      <div class="container">
+        <h4>Installed Packages</h4>
+      </div>
+    </div>
+
+    <div class="parent container-fluid">
+      <div class="container">
+        <ul class="list-group container" v-for="(version, packageName) in results">
+          <li class="list-group-item active">
+              <div class="child-label"> {{ packageName }} | v{{version}} </div>
+              <div class="tiny child-button button-group">
+                <a class="button update-button" @click="updatePackage(packageName)"><span data-tooltip :title=" 'update package: '+ packageName + '?'">Update</span></a>
+                <a class="button secondary" @click="removePackage(packageName)"><span data-tooltip :title=" 'remove package: ' + packageName + '?'">Remove</span></a>
+              </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+
   </div> <!-- end container -->
 
   <script src="https://unpkg.com/vue@3"></script>

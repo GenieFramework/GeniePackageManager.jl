@@ -1,6 +1,4 @@
 using Genie
-using Genie.Requests
-using Genie.Renderer.Json
 using GeniePackageManager
 
 
@@ -15,3 +13,5 @@ route("/geniepackagemanager/api/v1/:package::String/dev", GeniePackageManager.AP
 route("geniepackagemanager/api/v1/:package::String/remove", GeniePackageManager.API.V1.remove_package, method = POST)
 route("/geniepackagemanager/api/v1/:package::String/update", GeniePackageManager.API.V1.update_package, method = POST)
 route("/geniepackagemanager/api/v1/updateall", GeniePackageManager.API.V1.update_all_packages, method = GET)
+
+# move them to src/function->registerroute
