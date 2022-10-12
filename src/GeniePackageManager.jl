@@ -10,6 +10,22 @@ using Random
 
 const PKGLISTURL = "https://raw.githubusercontent.com/JuliaRegistries/General/master/Registry.toml"
 
+const defaultroute = "/geniepackagemanager"
+
+function register_routes(defaultroute = defaultroute)
+  route("$defaultroute", list_packages)
+  route("$defaultroute/packages", get_packages)
+
+  # REST ENDPOINTS
+  route("$defaultroute/api/v1/:package::String/add", API.V1.add, method = POST)
+  route("$defaultroute/api/v1/:org::String/:repo::String/add", API.V1.add_with_url, method = POST)
+  route("$defaultroute/api/v1/:package::String/:version::String/add", API.V1.add_with_version, method = POST)
+  route("$defaultroute/api/v1/:package::String/dev", API.V1.dev, method = POST)
+  route("$defaultroute/api/v1/:package::String/remove", API.V1.remove_package, method = POST)
+  route("$defaultroute/api/v1/:package::String/update", API.V1.update_package, method = POST)
+  route("$defaultroute/api/v1/updateall", API.V1.update_all_packages, method = GET)
+end
+
 function install(dest::String; force = false)
   src = abspath(normpath(joinpath(@__DIR__, "..", GeniePlugins.FILES_FOLDER)))
 
