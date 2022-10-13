@@ -1,5 +1,5 @@
-const index = "http://127.0.0.1:8000/geniepackagemanager";
-const packageManagerBaseUrl = "http://127.0.0.1:8000/geniepackagemanager/api/v1/"
+const index = "/geniepackagemanager";
+const packageManagerBaseUrl = "/geniepackagemanager/api/v1/"
 
 const {
     createApp

@@ -18,9 +18,6 @@ html{
   background-color: #F9F8F6;
 } 
 
-
-
-
 #app{
   background-color: #F9F8F6;
   padding-bottom:60px;
@@ -46,12 +43,9 @@ h4{
 
 }
 
-
 div.parent.container-fluid{
   margin:0!important;
 }
-
-
 
 .button {
     background-color: #457CFF;

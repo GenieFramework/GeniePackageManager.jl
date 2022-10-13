@@ -2,6 +2,7 @@ module GeniePackageManager
 
 using Genie
 using GeniePlugins
+using Genie.Renderer.Html
 using Genie.Renderer.Json
 using Genie.HTTPUtils.HTTP
 using Pkg
@@ -12,8 +13,14 @@ const PKGLISTURL = "https://raw.githubusercontent.com/JuliaRegistries/General/ma
 
 const defaultroute = "/geniepackagemanager"
 
+viewpath = abspath(joinpath(@__DIR__, "..", "views", "index.jl.html"))
+
 function register_routes(defaultroute = defaultroute)
-  route("$defaultroute", list_packages)
+  route("$defaultroute") do
+    html(filepath(viewpath))
+  end
+
+  route("$defaultroute/list", list_packages)
   route("$defaultroute/packages", get_packages)
 
   # REST ENDPOINTS
