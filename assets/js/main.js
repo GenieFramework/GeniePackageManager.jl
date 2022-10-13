@@ -1,4 +1,5 @@
-const index = "/geniepackagemanager";
+// const index = "/geniepackagemanager";
+const indexlist = "/geniepackagemanager/list"
 const packageManagerBaseUrl = "/geniepackagemanager/api/v1/"
 
 const {
@@ -105,7 +106,7 @@ createApp({
         }
     },
     mounted() {
-        axios.get(index).then(response => {
+        axios.get(indexlist).then(response => {
             console.log(response.data)
             obj = response.data
             const sorted = Object.keys(obj)
