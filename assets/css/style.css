@@ -1,22 +1,20 @@
 @font-face {
   font-family: 'Inter',sans-serif;
-  src: url("/assets/fonts/Inter-Regular.ttf");
+  src: url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
 }
-
 
 html,h4,div.child-lavel,a.button,.child-label,fieldset{
   font-family: 'Inter',sans-serif!important;
   color:#4A4947;
   font-weight:500;
   font-size:15px;
-  
 }
 
 html{ 
   margin: 0 !important; 
   padding:0!important;
   background-color: #F9F8F6;
-} 
+}
 
 #app{
   background-color: #F9F8F6;
@@ -40,7 +38,6 @@ h4{
     padding-top:1.4rem;
     /* padding-bottom:1.4rem; */
     background-color: #F9F8F6;
-
 }
 
 div.parent.container-fluid{
@@ -71,10 +68,6 @@ div.parent.container-fluid{
   background-color: #DDE7FF!important;
   color: #457CFF;
 }
-
-
-
-
 
 .list-group.container {
   margin-bottom: 1rem;
@@ -114,8 +107,6 @@ div.parent.container-fluid{
   margin-bottom: 0;
   border-bottom: none;
 }
-
-
 
 .row{
   max-width:none!important;
