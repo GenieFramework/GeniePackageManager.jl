@@ -81,7 +81,6 @@ module API
 module V1
 
 using Genie
-using GeniePlugins
 using Genie.Renderer.Json
 using Genie.HTTPUtils.HTTP
 using Pkg
