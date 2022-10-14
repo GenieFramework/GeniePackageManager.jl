@@ -1,7 +1,6 @@
 module GeniePackageManager
 
 using Genie
-using GeniePlugins
 using Genie.Renderer.Html
 using Genie.Renderer.Json
 using Genie.HTTPUtils.HTTP
@@ -51,15 +50,6 @@ function register_routes(defaultroute = defaultroute)
   route("$defaultroute/api/v1/:package::String/remove", API.V1.remove_package, method = POST)
   route("$defaultroute/api/v1/:package::String/update", API.V1.update_package, method = POST)
   route("$defaultroute/api/v1/updateall", API.V1.update_all_packages, method = GET)
-end
-
-function install(dest::String; force = false)
-  src = abspath(normpath(joinpath(@__DIR__, "..", GeniePlugins.FILES_FOLDER)))
-
-  for f in readdir(src)
-    isdir(f) || continue
-    GeniePlugins.install(joinpath(src, f), dest, force = force)
-  end
 end
 
 function list_packages()
