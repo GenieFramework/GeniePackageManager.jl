@@ -56,9 +56,24 @@ createApp({
                         urlSplit = repoUrl.split("/");
                         packageName = urlSplit[urlSplit.length-1];
                         orgName = urlSplit[urlSplit.length-2];
+
+                        githost = urlSplit[urlSplit.length-3];
+                        mygithostname = githost.split(".")[0];
+
+                        githostname = ""
+
+                        if (mygithostname == "github")
+                            githostname = "github"
+            
+                        if(mygithostname == "gitlab")
+                            githostname = "gitlab"
+                        
+                        if(mygithostname == "bitbucket")
+                            githostname = "bitbucket"
+
                         pkgSplit = packageName.split(".")
                         pkgName = pkgSplit[0];
-                        axios.post(packageManagerBaseUrl+ orgName+"/"+pkgName+"/add").then(response => {
+                        axios.post(packageManagerBaseUrl+ githostname + "/" + orgName+"/"+pkgName+"/addurl").then(response => {
                             console.log(response);
                             window.location.reload();
                         })
