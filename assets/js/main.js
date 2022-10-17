@@ -39,6 +39,12 @@ createApp({
                   '(\\#[-a-z\\d_]*)?$','i'); // validate fragment locator
                 return !!urlPattern.test(urlString);
                 }
+
+                // if package name ends with '.jl' remove it
+                // removed .jl so it's not recognized as a url by isValidUrl
+                if (this.toAddPackage.endsWith(".jl")) {
+                    this.toAddPackage = this.toAddPackage.slice(0, -3)
+                }
                 
                 if (isValidUrl(this.toAddPackage)) {
                     repoLink = this.toAddPackage;
@@ -61,10 +67,6 @@ createApp({
                     }
                 }// if toAddPackage is a package name
                 else {
-                    // if package name ends with '.jl' remove it
-                    if (this.toAddPackage.endsWith(".jl")) {
-                        this.toAddPackage = this.toAddPackage.slice(0, -3)
-                    }
 
                     if (this.dev == false) {
                         axios.post(packageManagerBaseUrl+this.toAddPackage+"/add").then(response => {
