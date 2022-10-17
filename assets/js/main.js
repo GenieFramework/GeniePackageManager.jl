@@ -19,7 +19,6 @@ createApp({
     methods: {
         addPackage() {
             // if package contains @ split it by packageName and version
-            console.log(this.toAddPackage);
             if (this.toAddPackage.includes('@')) {
                 const pkgSplit = this.toAddPackage.split("@");
                 toAddPackage = pkgSplit[0];
@@ -31,30 +30,42 @@ createApp({
                 })
             }
             else{
-                
-                repoLink = this.toAddPackage;
-                repoUrl = new URL(repoLink);
-
-                // if package name ends with '.jl' remove it
-                if (this.toAddPackage.endsWith(".jl")) {
-                    this.toAddPackage = this.toAddPackage.slice(0, -3)
+                const isValidUrl = urlString=> {
+                    var urlPattern = new RegExp('^(https?:\\/\\/)?'+ // validate protocol
+                  '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|'+ // validate domain name
+                  '((\\d{1,3}\\.){3}\\d{1,3}))'+ // validate OR ip (v4) address
+                  '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*'+ // validate port and path
+                  '(\\?[;&a-z\\d%_.~+=-]*)?'+ // validate query string
+                  '(\\#[-a-z\\d_]*)?$','i'); // validate fragment locator
+                return !!urlPattern.test(urlString);
                 }
+                
+                if (isValidUrl(this.toAddPackage)) {
+                    repoLink = this.toAddPackage;
+                    repoUrl = new URL(repoLink);
 
-                // if toAddPackage is a github/gitlab link
-                if (repoUrl.protocol == "https:" || repoUrl.protocol == "http:") {
-                    urlSplit = repoUrl.split("/");
-                    packageName = urlSplit[urlSplit.length-1];
-                    orgName = urlSplit[urlSplit.length-2];
+                    // if toAddPackage is a github/gitlab link
+                    if (repoUrl.protocol == "https:" || repoUrl.protocol == "http:") {
+                        repoUrl = repoUrl.toString();
+                        urlSplit = repoUrl.split("/");
+                        packageName = urlSplit[urlSplit.length-1];
+                        orgName = urlSplit[urlSplit.length-2];
 
-                    pkgSplit = packageName.split(".")
-                    pkgName = pkgSplit[0];
+                        pkgSplit = packageName.split(".")
+                        pkgName = pkgSplit[0];
 
-                    axios.post(packageManagerBaseUrl+orgName+"/"+pkgName+"/add").then(response => {
-                        console.log(response);
-                        window.location.reload();
-                    })
-                } // if toAddPackage is a package name
+                        axios.post(packageManagerBaseUrl+orgName+"/"+pkgName+"/add").then(response => {
+                            console.log(response);
+                            window.location.reload();
+                        })
+                    }
+                }// if toAddPackage is a package name
                 else {
+                    // if package name ends with '.jl' remove it
+                    if (this.toAddPackage.endsWith(".jl")) {
+                        this.toAddPackage = this.toAddPackage.slice(0, -3)
+                    }
+
                     if (this.dev == false) {
                         axios.post(packageManagerBaseUrl+this.toAddPackage+"/add").then(response => {
                             console.log(response);
