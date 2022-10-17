@@ -56,11 +56,9 @@ createApp({
                         urlSplit = repoUrl.split("/");
                         packageName = urlSplit[urlSplit.length-1];
                         orgName = urlSplit[urlSplit.length-2];
-
                         pkgSplit = packageName.split(".")
                         pkgName = pkgSplit[0];
-
-                        axios.post(packageManagerBaseUrl+orgName+"/"+pkgName+"/add").then(response => {
+                        axios.post(packageManagerBaseUrl+ orgName+"/"+pkgName+"/add").then(response => {
                             console.log(response);
                             window.location.reload();
                         })
@@ -111,7 +109,7 @@ createApp({
                 if(confirm('are you sure you want to update all packages?'))
                     if(this.updateAll == true) {
                         this.isUpdateDisabled = false;
-                        axios.post(packageManagerBaseUrl+"update_all_packages").then(response => {
+                        axios.get(packageManagerBaseUrl+"updateall").then(response => {
                             console.log(response);
                             window.location.reload();
                         })
