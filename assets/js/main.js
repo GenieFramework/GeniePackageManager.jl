@@ -99,7 +99,7 @@ createApp({
             
         },
         removePackage(packageName) {
-            if(confirm('are you sure you want to update ' + packageName + '?'))
+            if(confirm('are you sure you want to remove ' + packageName + '?'))
                 axios.post(packageManagerBaseUrl+packageName+"/remove").then(response => {
                     console.log(response);
                     window.location.reload();
