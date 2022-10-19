@@ -36,7 +36,7 @@ end
 
 function register_routes(defaultroute = defaultroute)
   route("$defaultroute") do
-    html(filepath(viewpath))
+    html(filepath(viewpath), noparse=true)
   end
 
   route("$defaultroute/list", list_packages)

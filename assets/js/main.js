@@ -2,19 +2,53 @@
 const indexlist = "/geniepackagemanager/list"
 const packageManagerBaseUrl = "/geniepackagemanager/api/v1/"
 
-const {
-    createApp
-} = Vue
+/* const clickOutside = {
+    beforeMount: (el, binding) => {
+      el.clickOutsideEvent = event => {
+        if (!(el == event.target || el.contains(event.target))) {
+          binding.value();
+        }
+      };
+      document.addEventListener("click", el.clickOutsideEvent);
+    },
+    unmounted: el => {
+      document.removeEventListener("click", el.clickOutsideEvent);
+    },
+}; */
 
-createApp({
+const { createApp, ref } = Vue;
+
+const CustomButton = {
+    props: ["label", "confirm_label", "cancel_label", "title"], 
+    template: `
+    <a v-if="!showConfirm" class="button secondary" v-on:click="showConfirm=true"><span data-tooltip :title="title">{{label}}</span></a>
+    <a v-if="showConfirm" class="button alert" v-on:click="confirmClicked"><span data-tooltip>{{confirm_label}}</span></a>
+    <a v-if="showConfirm" class="button secondary" v-on:click="showConfirm=false"><span data-tooltip>{{cancel_label}}</span></a>
+    `,
+    setup() {
+        return {
+            showConfirm: ref(false)
+        }
+    },
+    methods: {
+        confirmClicked(){
+            this.$emit('confirm')
+        }
+    }
+};
+
+const app = createApp({
     data() {
         return {
-            results: {},
+            results: {"Genie": ["2.2.4", "dev"]},
             toAddPackage: "",
             dev: false,
             updateAll: false,
             isUpdateDisabled: true
         }
+    },
+    components: {
+
     },
     methods: {
         addPackage() {
@@ -99,11 +133,11 @@ createApp({
             
         },
         removePackage(packageName) {
-            if(confirm('are you sure you want to remove ' + packageName + '?'))
-                axios.post(packageManagerBaseUrl+packageName+"/remove").then(response => {
-                    console.log(response);
-                    window.location.reload();
-                })
+            // if(confirm('are you sure you want to remove ' + packageName + '?'))
+            axios.post(packageManagerBaseUrl+packageName+"/remove").then(response => {
+                console.log(response);
+                window.location.reload();
+            })
         },
         updatePackage(packageName) {
             if(confirm('are you sure you want to update package: ' + packageName + '?'))
@@ -121,14 +155,14 @@ createApp({
         },
         updateAllPackages() {
             if (this.isUpdateDisabled == false)
-                if(confirm('are you sure you want to update all packages?'))
-                    if(this.updateAll == true) {
-                        this.isUpdateDisabled = false;
-                        axios.get(packageManagerBaseUrl+"updateall").then(response => {
-                            console.log(response);
-                            window.location.reload();
-                        })
-                    }
+                // if(confirm('are you sure you want to update all packages?'))
+                if(this.updateAll == true) {
+                    this.isUpdateDisabled = false;
+                    axios.get(packageManagerBaseUrl+"updateall").then(response => {
+                        console.log(response);
+                        window.location.reload();
+                    })
+                }
         }
     },
     mounted() {
@@ -146,4 +180,17 @@ createApp({
         })
 
     }
-}).mount('#app')
+});
+
+app.use(Quasar)
+
+app.component('mygbutton', CustomButton)
+//app.directive("clickOut", clickOutside)
+app.mount('#app')
+
+
+// app.mount('#app')
+// app.use(FloatingVue)
+
+// app.component('VDropdown', FloatingVue.Dropdown)
+// app.directive('tooltip', FloatingVue.VTooltip)
