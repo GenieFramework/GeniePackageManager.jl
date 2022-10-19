@@ -19,7 +19,7 @@ const packageManagerBaseUrl = "/geniepackagemanager/api/v1/"
 const { createApp, ref } = Vue;
 
 const CustomButton = {
-    props: ["label", "confirm_label", "cancel_label", "title"], 
+    props: ["label", "confirm_label", "cancel_label", "title"],
     template: `
     <a v-if="!showConfirm" class="button secondary" v-on:click="showConfirm=true"><span data-tooltip :title="title">{{label}}</span></a>
     <a v-if="showConfirm" class="button alert" v-on:click="confirmClicked"><span data-tooltip>{{confirm_label}}</span></a>
@@ -79,7 +79,7 @@ const app = createApp({
                 if (this.toAddPackage.endsWith(".jl")) {
                     this.toAddPackage = this.toAddPackage.slice(0, -3)
                 }
-                
+
                 if (isValidUrl(this.toAddPackage)) {
                     repoLink = this.toAddPackage;
                     repoUrl = new URL(repoLink);
@@ -98,10 +98,10 @@ const app = createApp({
 
                         if (mygithostname == "github")
                             githostname = "github"
-            
+
                         if(mygithostname == "gitlab")
                             githostname = "gitlab"
-                        
+
                         if(mygithostname == "bitbucket")
                             githostname = "bitbucket"
 
@@ -130,7 +130,7 @@ const app = createApp({
                     }
                 }
             }
-            
+
         },
         removePackage(packageName) {
             // if(confirm('are you sure you want to remove ' + packageName + '?'))
@@ -140,7 +140,7 @@ const app = createApp({
             })
         },
         updatePackage(packageName) {
-            if(confirm('are you sure you want to update package: ' + packageName + '?'))
+            // if(confirm('are you sure you want to update package: ' + packageName + '?'))
                 axios.post(packageManagerBaseUrl+packageName+"/update").then(response => {
                     console.log(response);
                     window.location.reload();

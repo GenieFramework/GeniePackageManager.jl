@@ -12,7 +12,7 @@ const PKGLISTURL = "https://raw.githubusercontent.com/JuliaRegistries/General/ma
 
 const defaultroute = "/geniepackagemanager"
 
-viewpath = abspath(joinpath(@__DIR__, "..", "views", "index.jl.html"))
+viewpath = abspath(joinpath(@__DIR__, "..", "views", "index.html"))
 
 const assets_config = Genie.Assets.AssetsConfig(package = "GeniePackageManager.jl")
 
@@ -36,7 +36,7 @@ end
 
 function register_routes(defaultroute = defaultroute)
   route("$defaultroute") do
-    html(filepath(viewpath), noparse=true)
+    serve_file(viewpath)
   end
 
   route("$defaultroute/list", list_packages)
@@ -69,7 +69,7 @@ function list_packages()
     if haskey(ENV, "JULIA_PKG_DEVDIR")
       moddevdir = true
     end
-    
+
     if moddevdir && occursin(ENV["JULIA_PKG_DEVDIR"], dep.source)
       @info "modded dev dir run"
       installs[dep.name] = [dep.version, "dev"]
@@ -89,8 +89,8 @@ end
 function get_packages() :: Dict{String,Any}
   try
     withcache(randstring(12), 24 * 60 * 60) do
-      Dict("packages" => 
-          [package_info["name"] for package_info in values(((HTTP.get(PKGLISTURL).body |> String) |> TOML.parse)["packages"])] 
+      Dict("packages" =>
+          [package_info["name"] for package_info in values(((HTTP.get(PKGLISTURL).body |> String) |> TOML.parse)["packages"])]
       ) |> json
     end
   catch e

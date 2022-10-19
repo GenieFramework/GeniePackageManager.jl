@@ -20,7 +20,7 @@
       <form class="parent">
         <div class=" row">
             <div class="col-lg parent-install">
-            
+
                   <fieldset class="fieldset">
                     <legend>Install Package</legend>
                       <ul>
@@ -29,14 +29,14 @@
                         <li>or by github url i.e. <code>https://github.com/GenieFramework/Genie.jl.git</code></li>
                       </ul>
                       <div class="child-install">
-                        <input 
-                        type="text" 
-                        placeholder="type name/git url of package" 
+                        <input
+                        type="text"
+                        placeholder="type name/git url of package"
                         v-model="toAddPackage"/>
                       </div>
                       <!-- <div class="child-install">  -->
-                        <input 
-                        id="devpkg" 
+                        <input
+                        id="devpkg"
                         type="checkbox"
                         v-model="dev"/>
                         <label for="devpkg">dev package</label>
@@ -45,34 +45,25 @@
                   </fieldset>
             </div>
 
-            
+
 
             <div class="col-lg parent-install">
-            
+
               <fieldset class="fieldset">
                 <legend>Update all Packages</legend>
                   <p>Note: This functionality may break your application and force you to manually
                   resolve package conflicts. Use with caution.</p>
-                  
-                  <input 
-                  id="uppkgs" 
+
+                  <input
+                  id="uppkgs"
                   type="checkbox"
                   v-model="updateAll"
                   v-on:change="updateToggle"/>
                   <label for="uppkgs">Are you sure you want to update all packages?</label>
                   <a v-bind:class="{ disabled: isUpdateDisabled} " class="button tiny" v-on:click="updateAllPackages"><span data-tooltip title="Update all Packages?">Update</span></a>
-                  
-                  <!-- <mygbutton
-                  v-on:confirm="updateAllPackages" 
-                  title="update all packages"
-                  label="UpdateAll"
-                  confirm_label="Confirm Update"
-                  cancel_label="Cancel"
-                  ></mygbutton> -->
-
               </fieldset>
             </div>
-        
+
         </div>
       </form>
     </div>
@@ -91,9 +82,9 @@
               <div class="child-label"> {{ packageName }} | v{{ info[0] }} | {{ info[1] }}</div>
               <div class="tiny child-button button-group">
                 <a class="button update-button" v-on:click="updatePackage(packageName)"><span data-tooltip :title=" 'update package: '+ packageName + '?'">Update</span></a>
-                
-                <mygbutton 
-                  v-on:confirm="removePackage(packageName)" 
+
+                <mygbutton
+                  v-on:confirm="removePackage(packageName)"
                   :title="'remove package: ' + packageName + '?'"
                   label="Remove"
                   confirm_label="Confirm Remove"
