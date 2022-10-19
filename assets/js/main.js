@@ -1,29 +1,14 @@
-// const index = "/geniepackagemanager";
 const indexlist = "/geniepackagemanager/list"
 const packageManagerBaseUrl = "/geniepackagemanager/api/v1/"
-
-/* const clickOutside = {
-    beforeMount: (el, binding) => {
-      el.clickOutsideEvent = event => {
-        if (!(el == event.target || el.contains(event.target))) {
-          binding.value();
-        }
-      };
-      document.addEventListener("click", el.clickOutsideEvent);
-    },
-    unmounted: el => {
-      document.removeEventListener("click", el.clickOutsideEvent);
-    },
-}; */
 
 const { createApp, ref } = Vue;
 
 const CustomButton = {
     props: ["label", "confirm_label", "cancel_label", "title"],
     template: `
-    <a v-if="!showConfirm" class="button secondary" v-on:click="showConfirm=true"><span data-tooltip :title="title">{{label}}</span></a>
+    <a v-if="!showConfirm" class="button" v-on:click="showConfirm=true"><span data-tooltip :title="title">{{label}}</span></a>
     <a v-if="showConfirm" class="button alert" v-on:click="confirmClicked"><span data-tooltip>{{confirm_label}}</span></a>
-    <a v-if="showConfirm" class="button secondary" v-on:click="showConfirm=false"><span data-tooltip>{{cancel_label}}</span></a>
+    <a v-if="showConfirm" class="button info" v-on:click="showConfirm=false"><span data-tooltip>{{cancel_label}}</span></a>
     `,
     setup() {
         return {
@@ -55,8 +40,8 @@ const app = createApp({
             // if package contains @ split it by packageName and version
             if (this.toAddPackage.includes('@')) {
                 const pkgSplit = this.toAddPackage.split("@");
-                toAddPackage = pkgSplit[0];
-                version = pkgSplit[1];
+                let toAddPackage = pkgSplit[0];
+                let version = pkgSplit[1];
 
                 axios.post(packageManagerBaseUrl+toAddPackage+"/"+version+"/add").then(response => {
                     console.log(response);
@@ -81,40 +66,38 @@ const app = createApp({
                 }
 
                 if (isValidUrl(this.toAddPackage)) {
-                    repoLink = this.toAddPackage;
-                    repoUrl = new URL(repoLink);
+                    let repoLink = this.toAddPackage;
+                    let repoUrl = new URL(repoLink);
 
                     // if toAddPackage is a github/gitlab link
                     if (repoUrl.protocol == "https:" || repoUrl.protocol == "http:") {
                         repoUrl = repoUrl.toString();
-                        urlSplit = repoUrl.split("/");
-                        packageName = urlSplit[urlSplit.length-1];
-                        orgName = urlSplit[urlSplit.length-2];
+                        let urlSplit = repoUrl.split("/");
+                        let packageName = urlSplit[urlSplit.length-1];
+                        let orgName = urlSplit[urlSplit.length-2];
 
-                        githost = urlSplit[urlSplit.length-3];
-                        mygithostname = githost.split(".")[0];
+                        let githost = urlSplit[urlSplit.length-3];
+                        let mygithostname = githost.split(".")[0];
 
-                        githostname = ""
+                        let githostname = ""
 
-                        if (mygithostname == "github")
+                        if (mygithostname == "github"){
                             githostname = "github"
-
-                        if(mygithostname == "gitlab")
+                        } else if (mygithostname == "gitlab") {
                             githostname = "gitlab"
-
-                        if(mygithostname == "bitbucket")
+                        } else if(mygithostname == "bitbucket") {
                             githostname = "bitbucket"
+                        }
 
-                        pkgSplit = packageName.split(".")
-                        pkgName = pkgSplit[0];
+                        let pkgSplit = packageName.split(".")
+                        let pkgName = pkgSplit[0];
                         axios.post(packageManagerBaseUrl+ githostname + "/" + orgName+"/"+pkgName+"/addurl").then(response => {
                             console.log(response);
                             window.location.reload();
                         })
                     }
-                }// if toAddPackage is a package name
+                }
                 else {
-
                     if (this.dev == false) {
                         axios.post(packageManagerBaseUrl+this.toAddPackage+"/add").then(response => {
                             console.log(response);
@@ -133,18 +116,16 @@ const app = createApp({
 
         },
         removePackage(packageName) {
-            // if(confirm('are you sure you want to remove ' + packageName + '?'))
             axios.post(packageManagerBaseUrl+packageName+"/remove").then(response => {
                 console.log(response);
                 window.location.reload();
             })
         },
         updatePackage(packageName) {
-            // if(confirm('are you sure you want to update package: ' + packageName + '?'))
-                axios.post(packageManagerBaseUrl+packageName+"/update").then(response => {
-                    console.log(response);
-                    window.location.reload();
-                })
+            axios.post(packageManagerBaseUrl+packageName+"/update").then(response => {
+                console.log(response);
+                window.location.reload();
+            })
         },
         updateToggle() {
             if (this.updateAll == true) {
@@ -154,8 +135,7 @@ const app = createApp({
             }
         },
         updateAllPackages() {
-            if (this.isUpdateDisabled == false)
-                // if(confirm('are you sure you want to update all packages?'))
+            if (this.isUpdateDisabled == false){
                 if(this.updateAll == true) {
                     this.isUpdateDisabled = false;
                     axios.get(packageManagerBaseUrl+"updateall").then(response => {
@@ -163,6 +143,7 @@ const app = createApp({
                         window.location.reload();
                     })
                 }
+            }
         }
     },
     mounted() {
@@ -183,14 +164,5 @@ const app = createApp({
 });
 
 app.use(Quasar)
-
 app.component('mygbutton', CustomButton)
-//app.directive("clickOut", clickOutside)
 app.mount('#app')
-
-
-// app.mount('#app')
-// app.use(FloatingVue)
-
-// app.component('VDropdown', FloatingVue.Dropdown)
-// app.directive('tooltip', FloatingVue.VTooltip)
