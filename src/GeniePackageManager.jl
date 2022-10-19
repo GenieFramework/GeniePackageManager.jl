@@ -55,12 +55,34 @@ end
 function list_packages()
   @info "Inside List Packages $(@__DIR__)"
   deps = Pkg.dependencies()
-  installs = Dict{String, VersionNumber}()
+
+  # installs = Dict{String, VersionNumber}()
+  installs = Dict{String, Vector{Any}}()
+
   for (uuid, dep) in deps
     dep.is_direct_dep || continue
     dep.version === nothing && continue
-    installs[dep.name] = dep.version
+    dep.source === nothing && continue
+    @info "running $(dep.name)"
+
+    moddevdir = false
+    if haskey(ENV, "JULIA_PKG_DEVDIR")
+      moddevdir = true
+    end
+    
+    if moddevdir && occursin(ENV["JULIA_PKG_DEVDIR"], dep.source)
+      @info "modded dev dir run"
+      installs[dep.name] = [dep.version, "dev"]
+    elseif !moddevdir && !isempty(findall(x -> x == "dev", splitpath(dep.source)))
+      @info "dev dir run"
+      installs[dep.name] = [dep.version, "dev"]
+    else
+      @info "else is run"
+      installs[dep.name] = [dep.version, ""]
+    end
+
   end
+
   return installs |> json
 end
 

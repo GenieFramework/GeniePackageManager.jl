@@ -74,9 +74,9 @@
 
     <div class="parent container-fluid">
       <div class="container">
-        <ul class="list-group container" v-for="(version, packageName) in results">
+        <ul class="list-group container" v-for="(info, packageName) in results">
           <li class="list-group-item active">
-              <div class="child-label"> {{ packageName }} | v{{version}} </div>
+              <div class="child-label"> {{ packageName }} | v{{ info[0] }} | {{ info[1] }}</div>
               <div class="tiny child-button button-group">
                 <a class="button update-button" v-on:click="updatePackage(packageName)"><span data-tooltip :title=" 'update package: '+ packageName + '?'">Update</span></a>
                 <a class="button secondary" v-on:click="removePackage(packageName)"><span data-tooltip :title=" 'remove package: ' + packageName + '?'">Remove</span></a>
