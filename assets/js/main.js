@@ -40,7 +40,7 @@ const CustomButton = {
 const app = createApp({
     data() {
         return {
-            results: {"Genie": ["2.2.4", "dev"]},
+            results: {},
             toAddPackage: "",
             dev: false,
             updateAll: false,
