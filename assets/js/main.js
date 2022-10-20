@@ -43,7 +43,6 @@ const app = createApp({
     methods: {
         addPackage() {
             if (this.addHasClicked == false) {
-                console.log("inside add")
                 // if package contains @ split it by packageName and version
                 if (this.toAddPackage.includes('@')) {
                         const pkgSplit = this.toAddPackage.split("@");
@@ -94,28 +93,13 @@ const app = createApp({
                             let pkgSplit = packageName.split(".")
                             let pkgName = pkgSplit[0];
 
-                            console.log("before dev decision")
-
                             if (this.dev == false){
-                                console.log("no dev")
-                                console.log(githost)
-                                console.log(orgName)
-                                console.log(pkgName)
                                 this.addHasClicked = true
                                 axios.post(packageManagerBaseUrl+ githostname + "/" + orgName+"/"+pkgName+"/addurl").then(response => {
                                     console.log(response);
                                     window.location.reload();
                                 })
-                            }
-                            
-                            if(this.dev == true){
-                                console.log("is dev")
-                                console.log(githost)
-                                console.log(orgName)
-                                console.log(pkgName)
-
-                                setTimeout(() => { console. log("World!"); }, 5000);
-
+                            }else{
                                 this.addHasClicked = true
                                 axios.post(packageManagerBaseUrl+ githostname + "/" + orgName+"/"+pkgName+"/addurldev").then(response => {
                                     console.log(response);
@@ -125,7 +109,6 @@ const app = createApp({
                         }
                     }
                     else {
-                        console.log("going inside original dev")
                         if (this.dev == false) {
                             this.addHasClicked = true
                             axios.post(packageManagerBaseUrl+this.toAddPackage+"/add").then(response => {
@@ -134,7 +117,6 @@ const app = createApp({
                             })
                         }
                         else {
-                            console.log("installing package" + this.toAddPackage + "in dev mode");
                             this.addHasClicked = true
                             axios.post(packageManagerBaseUrl+this.toAddPackage+"/dev").then(response => {
                                 console.log(response);
