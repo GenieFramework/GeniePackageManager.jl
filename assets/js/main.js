@@ -4,7 +4,7 @@ const githosts = ["github", "gitlab", "bitbucket"]
 
 const { createApp, ref } = Vue;
 
-function gitException(errMsg) { throw errMsg; }
+function pkgException(errMsg) { throw errMsg; }
 
 const CustomButton = {
     props: ["label", "confirm_label", "cancel_label", "title"],
@@ -83,7 +83,7 @@ const app = createApp({
                         let mygithostname = githost.split(".")[0];
 
                         let githostname = githosts.includes(mygithostname) ? mygithostname 
-                                            : gitException("error: git host not found");
+                                            : pkgException("git error: host not found");
 
                         let pkgSplit = packageName.split(".")
                         let pkgName = pkgSplit[0];
