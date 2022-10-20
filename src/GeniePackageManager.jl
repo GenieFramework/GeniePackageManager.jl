@@ -45,6 +45,7 @@ function register_routes(defaultroute = defaultroute)
   # REST ENDPOINTS
   route("$defaultroute/api/v1/:package::String/add", API.V1.add, method = POST)
   route("$defaultroute/api/v1/:pkghost::String/:pkgorg::String/:pkgrepo::String/addurl", API.V1.add_with_url, method = POST)
+  route("$defaultroute/api/v1/:pkghost::String/:pkgorg::String/:pkgrepo::String/addurldev", API.V1.add_with_url_dev, method = POST)
   route("$defaultroute/api/v1/:package::String/:version::String/add", API.V1.add_with_version, method = POST)
   route("$defaultroute/api/v1/:package::String/dev", API.V1.dev, method = POST)
   route("$defaultroute/api/v1/:package::String/remove", API.V1.remove_package, method = POST)
@@ -138,6 +139,19 @@ function add_with_url()
     repo = params(:pkgrepo)
     url = "https://" * pkghost * ".com/" * org * "/" * repo * ".jl.git"
     Pkg.add(url=url)
+    return Dict(:status => "ok", :message => "Package $url added") |> json
+  catch e
+    return Dict("error" => e) |> json
+  end
+end
+
+function add_with_url_dev()
+  try
+    pkghost = params(:pkghost)
+    org = params(:pkgorg)
+    repo = params(:pkgrepo)
+    url = "https://" * pkghost * ".com/" * org * "/" * repo * ".jl.git"
+    Pkg.develop(url=url)
     return Dict(:status => "ok", :message => "Package $url added") |> json
   catch e
     return Dict("error" => e) |> json
