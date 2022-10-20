@@ -3,6 +3,8 @@ const packageManagerBaseUrl = "/geniepackagemanager/api/v1/"
 
 const { createApp, ref } = Vue;
 
+function gitException(errMsg) { throw errMsg; }
+
 const CustomButton = {
     props: ["label", "confirm_label", "cancel_label", "title"],
     template: `
@@ -66,6 +68,7 @@ const app = createApp({
                 }
 
                 if (isValidUrl(this.toAddPackage)) {
+                    const githosts = ["github", "gitlab", "bitbucket"]
                     let repoLink = this.toAddPackage;
                     let repoUrl = new URL(repoLink);
 
@@ -78,16 +81,9 @@ const app = createApp({
 
                         let githost = urlSplit[urlSplit.length-3];
                         let mygithostname = githost.split(".")[0];
-
-                        let githostname = ""
-
-                        if (mygithostname == "github"){
-                            githostname = "github"
-                        } else if (mygithostname == "gitlab") {
-                            githostname = "gitlab"
-                        } else if(mygithostname == "bitbucket") {
-                            githostname = "bitbucket"
-                        }
+                        
+                        let githostname = githosts.includes(mygithostname) ? mygithostname 
+                                            : gitException("error: git client not found");
 
                         let pkgSplit = packageName.split(".")
                         let pkgName = pkgSplit[0];
