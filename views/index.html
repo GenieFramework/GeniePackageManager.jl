@@ -37,7 +37,7 @@
                         type="checkbox"
                         v-model="dev"/>
                         <label for="devpkg">dev package</label>
-                        <a class="button tiny" v-on:click="addPackage"><span data-tooltip :title=" 'Add Package ' + toAddPackage + '?'">Add</span></a>
+                        <a class="button tiny" v-bind:class="{ disabled: addHasClicked} " v-on:click="addPackage"><span data-tooltip :title=" 'Add Package ' + toAddPackage + '?'">Add</span></a>
                       <!-- </div> -->
                   </fieldset>
             </div>
@@ -57,7 +57,7 @@
                   v-model="updateAll"
                   v-on:change="updateToggle"/>
                   <label for="uppkgs">Are you sure you want to update all packages?</label>
-                  <a v-bind:class="{ disabled: isUpdateDisabled} " class="button tiny" v-on:click="updateAllPackages"><span data-tooltip title="Update all Packages?">Update</span></a>
+                  <a v-bind:class="{ disabled: isUpdateAllDisabled} " class="button tiny" v-on:click="updateAllPackages"><span data-tooltip title="Update all Packages?">Update</span></a>
               </fieldset>
             </div>
 

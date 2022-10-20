@@ -28,11 +28,13 @@ const CustomButton = {
 const app = createApp({
     data() {
         return {
+            addHasClicked: false,
+            hasClicked: false,
             results: {},
             toAddPackage: "",
             dev: false,
             updateAll: false,
-            isUpdateDisabled: true
+            isUpdateAllDisabled: true
         }
     },
     components: {
@@ -40,72 +42,80 @@ const app = createApp({
     },
     methods: {
         addPackage() {
-            // if package contains @ split it by packageName and version
-            if (this.toAddPackage.includes('@')) {
-                const pkgSplit = this.toAddPackage.split("@");
-                let toAddPackage = pkgSplit[0];
-                let version = pkgSplit[1];
-
-                axios.post(packageManagerBaseUrl+toAddPackage+"/"+version+"/add").then(response => {
-                    console.log(response);
-                    window.location.reload();
-                })
-            }
-            else{
-                const isValidUrl = urlString=> {
-                    var urlPattern = new RegExp('^(https?:\\/\\/)?'+ // validate protocol
-                  '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|'+ // validate domain name
-                  '((\\d{1,3}\\.){3}\\d{1,3}))'+ // validate OR ip (v4) address
-                  '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*'+ // validate port and path
-                  '(\\?[;&a-z\\d%_.~+=-]*)?'+ // validate query string
-                  '(\\#[-a-z\\d_]*)?$','i'); // validate fragment locator
-                return !!urlPattern.test(urlString);
-                }
-
-                // if package name ends with '.jl' remove it
-                // removed .jl so it's not recognized as a url by isValidUrl
-                if (this.toAddPackage.endsWith(".jl")) {
-                    this.toAddPackage = this.toAddPackage.slice(0, -3)
-                }
-
-                if (isValidUrl(this.toAddPackage)) {
-                    let repoLink = this.toAddPackage;
-                    let repoUrl = new URL(repoLink);
-
-                    // if toAddPackage is a github/gitlab link
-                    if (repoUrl.protocol == "https:" || repoUrl.protocol == "http:") {
-                        repoUrl = repoUrl.toString();
-                        let urlSplit = repoUrl.split("/");
-                        let packageName = urlSplit[urlSplit.length-1];
-                        let orgName = urlSplit[urlSplit.length-2];
-
-                        let githost = urlSplit[urlSplit.length-3];
-                        let mygithostname = githost.split(".")[0];
-
-                        let githostname = githosts.includes(mygithostname) ? mygithostname 
-                                            : pkgException("git error: host not found");
-
-                        let pkgSplit = packageName.split(".")
-                        let pkgName = pkgSplit[0];
-                        axios.post(packageManagerBaseUrl+ githostname + "/" + orgName+"/"+pkgName+"/addurl").then(response => {
+            if (this.addHasClicked == false) {
+                // if package contains @ split it by packageName and version
+                if (this.toAddPackage.includes('@')) {
+                        const pkgSplit = this.toAddPackage.split("@");
+                        let toAddPackage = pkgSplit[0];
+                        let version = pkgSplit[1];
+                        
+                        // turn addHasClicked to true
+                        this.addHasClicked = true
+                        axios.post(packageManagerBaseUrl+toAddPackage+"/"+version+"/add").then(response => {
                             console.log(response);
                             window.location.reload();
                         })
+                }
+                else{
+                    const isValidUrl = urlString=> {
+                        var urlPattern = new RegExp('^(https?:\\/\\/)?'+ // validate protocol
+                    '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|'+ // validate domain name
+                    '((\\d{1,3}\\.){3}\\d{1,3}))'+ // validate OR ip (v4) address
+                    '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*'+ // validate port and path
+                    '(\\?[;&a-z\\d%_.~+=-]*)?'+ // validate query string
+                    '(\\#[-a-z\\d_]*)?$','i'); // validate fragment locator
+                    return !!urlPattern.test(urlString);
                     }
-                }
-                else {
-                    if (this.dev == false) {
-                        axios.post(packageManagerBaseUrl+this.toAddPackage+"/add").then(response => {
-                            console.log(response);
-                            window.location.reload();
-                        })
+
+                    // if package name ends with '.jl' remove it
+                    // removed .jl so it's not recognized as a url by isValidUrl
+                    if (this.toAddPackage.endsWith(".jl")) {
+                        this.toAddPackage = this.toAddPackage.slice(0, -3)
+                    }
+
+                    if (isValidUrl(this.toAddPackage)) {
+                        let repoLink = this.toAddPackage;
+                        let repoUrl = new URL(repoLink);
+
+                        // if toAddPackage is a github/gitlab link
+                        if (repoUrl.protocol == "https:" || repoUrl.protocol == "http:") {
+                            repoUrl = repoUrl.toString();
+                            let urlSplit = repoUrl.split("/");
+                            let packageName = urlSplit[urlSplit.length-1];
+                            let orgName = urlSplit[urlSplit.length-2];
+
+                            let githost = urlSplit[urlSplit.length-3];
+                            let mygithostname = githost.split(".")[0];
+
+                            let githostname = githosts.includes(mygithostname) ? mygithostname 
+                                                : pkgException("git error: host not found");
+
+                            let pkgSplit = packageName.split(".")
+                            let pkgName = pkgSplit[0];
+                            
+                            this.addHasClicked = true
+                            axios.post(packageManagerBaseUrl+ githostname + "/" + orgName+"/"+pkgName+"/addurl").then(response => {
+                                console.log(response);
+                                window.location.reload();
+                            })
+                        }
                     }
                     else {
-                        console.log("installing package" + this.toAddPackage + "in dev mode");
-                        axios.post(packageManagerBaseUrl+this.toAddPackage+"/dev").then(response => {
-                            console.log(response);
-                            window.location.reload();
-                        })
+                        if (this.dev == false) {
+                            this.addHasClicked = true
+                            axios.post(packageManagerBaseUrl+this.toAddPackage+"/add").then(response => {
+                                console.log(response);
+                                window.location.reload();
+                            })
+                        }
+                        else {
+                            console.log("installing package" + this.toAddPackage + "in dev mode");
+                            this.addHasClicked = true
+                            axios.post(packageManagerBaseUrl+this.toAddPackage+"/dev").then(response => {
+                                console.log(response);
+                                window.location.reload();
+                            })
+                        }
                     }
                 }
             }
@@ -125,16 +135,18 @@ const app = createApp({
         },
         updateToggle() {
             if (this.updateAll == true) {
-                this.isUpdateDisabled = false;
+                this.isUpdateAllDisabled = false;
             }else{
-                this.isUpdateDisabled = true;
+                this.isUpdateAllDisabled = true;
             }
         },
         updateAllPackages() {
             if (this.isUpdateDisabled == false){
                 if(this.updateAll == true) {
-                    this.isUpdateDisabled = false;
+                    this.updateAll = false
+                    this.isUpdateAllDisabled = true
                     axios.get(packageManagerBaseUrl+"updateall").then(response => {
+                        this.isUpdateAllDisabled = false
                         console.log(response);
                         window.location.reload();
                     })
