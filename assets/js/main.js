@@ -6,6 +6,12 @@ const { createApp, ref } = Vue;
 
 function pkgException(errMsg) { throw errMsg; }
 
+const notification = {
+    template: `
+    <q-btn color="purple" @click="showNotif" label="Show Notification" />
+    `,
+}
+
 const CustomButton = {
     props: ["label", "confirm_label", "cancel_label", "title"],
     template: `
