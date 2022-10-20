@@ -167,16 +167,13 @@ const app = createApp({
             }
         },
         updateAllPackages() {
-            if (this.isUpdateDisabled == false){
-                if(this.updateAll == true) {
-                    this.updateAll = false
-                    this.isUpdateAllDisabled = true
-                    axios.get(packageManagerBaseUrl+"updateall").then(response => {
-                        this.isUpdateAllDisabled = false
-                        console.log(response);
-                        window.location.reload();
-                    })
-                }
+            if(this.updateAll == true) {
+                this.updateAll = false
+                this.isUpdateAllDisabled = true
+                axios.get(packageManagerBaseUrl+"updateall").then(response => {
+                    console.log(response);
+                    window.location.reload();
+                })
             }
         }
     },
