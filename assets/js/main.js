@@ -10,17 +10,27 @@ const CustomButton = {
     props: ["label", "confirm_label", "cancel_label", "title"],
     template: `
     <a v-if="!showConfirm" class="button" v-on:click="showConfirm=true"><span data-tooltip :title="title">{{label}}</span></a>
-    <a v-if="showConfirm" class="button alert" v-on:click="confirmClicked"><span data-tooltip>{{confirm_label}}</span></a>
-    <a v-if="showConfirm" class="button info" v-on:click="showConfirm=false"><span data-tooltip>{{cancel_label}}</span></a>
+    <a v-if="showConfirm" v-bind:class="{ button: true, alert:true, disabled: bdisable}" v-on:click="confirmClicked"><span data-tooltip>{{confirm_label}}</span></a>
+    <a v-if="showConfirm" v-bind:class="{ button: true, info:true, disabled: bdisable}" v-on:click="cancelClicked"><span data-tooltip>{{cancel_label}}</span></a>
     `,
     setup() {
         return {
+            bdisable: ref(false),
             showConfirm: ref(false)
         }
     },
     methods: {
+        cancelClicked() {
+            if (!this.bdisable) {
+                this.showConfirm=false
+            }
+        },
+        setDisabled() {
+            console.log("working .....")
+            this.bdisable = true
+        },
         confirmClicked(){
-            this.$emit('confirm')
+            this.$emit('confirm', this)
         }
     }
 };
@@ -129,16 +139,26 @@ const app = createApp({
 
         },
         removePackage(packageName) {
-            axios.post(packageManagerBaseUrl+packageName+"/remove").then(response => {
-                console.log(response);
-                window.location.reload();
-            })
+            const instance = this.$refs['remove_button_'+packageName][0]
+            if (instance.bdisable == false)
+            {
+                instance.setDisabled()
+            // axios.post(packageManagerBaseUrl+packageName+"/remove").then(response => {
+            //     console.log(response);
+            //     window.location.reload();
+            // })
+        }
         },
         updatePackage(packageName) {
-            axios.post(packageManagerBaseUrl+packageName+"/update").then(response => {
-                console.log(response);
-                window.location.reload();
-            })
+            const instance = this.$refs['update_button_'+packageName][0]
+            if (instance.bdisable == false)
+            {
+                instance.setDisabled()
+                // axios.post(packageManagerBaseUrl+packageName+"/update").then(response => {
+                //     console.log(response);
+                //     window.location.reload();
+                // })
+            }
         },
         updateToggle() {
             if (this.updateAll == true) {

@@ -82,6 +82,7 @@
 
                 <mygbutton
                   v-on:confirm="updatePackage(packageName)"
+                  :ref="'update_button_' + packageName"
                   :title="'update package: ' + packageName + '?'"
                   label="Update"
                   confirm_label="Confirm Update"
@@ -91,6 +92,7 @@
 
                 <mygbutton
                   v-on:confirm="removePackage(packageName)"
+                  :ref="'remove_button_' + packageName"
                   :title="'remove package: ' + packageName + '?'"
                   label="Remove"
                   confirm_label="Confirm Remove"
