@@ -83,7 +83,7 @@ const app = createApp({
                         let mygithostname = githost.split(".")[0];
 
                         let githostname = githosts.includes(mygithostname) ? mygithostname 
-                                            : gitException("error: git client not found");
+                                            : gitException("error: git host not found");
 
                         let pkgSplit = packageName.split(".")
                         let pkgName = pkgSplit[0];
