@@ -78,8 +78,6 @@
           <li class="list-group-item active">
               <div class="child-label"> {{ packageName }} | v{{ info[0] }} | {{ info[1] }}</div>
               <div class="tiny child-button button-group">
-                <!-- <a class="button update-button" v-on:click="updatePackage(packageName)"><span data-tooltip :title=" 'update package: '+ packageName + '?'">Update</span></a> -->
-
                 <mygbutton
                   v-on:confirm="updatePackage(packageName)"
                   :ref="'update_button_' + packageName"
@@ -88,8 +86,7 @@
                   confirm_label="Confirm Update"
                   cancel_label="Cancel"
                 ></mygbutton>
-                
-
+              
                 <mygbutton
                   v-on:confirm="removePackage(packageName)"
                   :ref="'remove_button_' + packageName"

@@ -26,7 +26,6 @@ const CustomButton = {
             }
         },
         setDisabled() {
-            console.log("working .....")
             this.bdisable = true
         },
         confirmClicked(){
@@ -143,10 +142,10 @@ const app = createApp({
             if (instance.bdisable == false)
             {
                 instance.setDisabled()
-            // axios.post(packageManagerBaseUrl+packageName+"/remove").then(response => {
-            //     console.log(response);
-            //     window.location.reload();
-            // })
+                axios.post(packageManagerBaseUrl+packageName+"/remove").then(response => {
+                    console.log(response);
+                    window.location.reload();
+                })
         }
         },
         updatePackage(packageName) {
@@ -154,10 +153,10 @@ const app = createApp({
             if (instance.bdisable == false)
             {
                 instance.setDisabled()
-                // axios.post(packageManagerBaseUrl+packageName+"/update").then(response => {
-                //     console.log(response);
-                //     window.location.reload();
-                // })
+                axios.post(packageManagerBaseUrl+packageName+"/update").then(response => {
+                    console.log(response);
+                    window.location.reload();
+                })
             }
         },
         updateToggle() {
