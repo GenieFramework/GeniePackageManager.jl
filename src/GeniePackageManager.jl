@@ -151,7 +151,7 @@ function add_with_url_dev()
     org = params(:pkgorg)
     repo = params(:pkgrepo)
     url = "https://" * pkghost * ".com/" * org * "/" * repo * ".jl.git"
-    Pkg.dev(url=url)
+    Pkg.develop(url=url)
     return Dict(:status => "ok", :message => "Package $url added") |> json
   catch e
     return Dict("error" => e) |> json
