@@ -1,6 +1,5 @@
 const indexlist = "/geniepackagemanager/list"
 const packageManagerBaseUrl = "/geniepackagemanager/api/v1/"
-const githosts = ["github", "gitlab", "bitbucket"]
 
 const { createApp, ref } = Vue;
 
@@ -88,17 +87,17 @@ const app = createApp({
 
                         // if it's a http link
                         if (repoUrl.protocol == "https:" || repoUrl.protocol == "http:") {
-                            let encodedRepoUrl = btoa(repoUrl.toString())
+                            let encodedRepoUrl = btoa(repoUrl.toString() + ".jl")
 
                             if (this.dev == false){
                                 this.addHasClicked = true
-                                axios.get(packageManagerBaseUrl+ "/addurl?url=" + encodedRepoUrl).then(response => {
+                                axios.get(packageManagerBaseUrl+ "addurl?url=" + encodedRepoUrl).then(response => {
                                     console.log(response);
                                     window.location.reload();
                                 })
                             }else{
                                 this.addHasClicked = true
-                                axios.get(packageManagerBaseUrl+ "/addurldev?=" + encodedRepoUrl).then(response => {
+                                axios.get(packageManagerBaseUrl+ "addurldev?url=" + encodedRepoUrl).then(response => {
                                     console.log(response);
                                     window.location.reload();
                                 })

@@ -50,7 +50,7 @@ function register_routes(defaultroute = defaultroute)
   route("$defaultroute/api/v1/:package::String/update", API.V1.update_package, method = POST)
 
   route("$defaultroute/api/v1/updateall", API.V1.update_all_packages, method = GET)
-  route("$defaultroute/api/v1/addurl", API.V1.add_with_url, method = POST)
+  route("$defaultroute/api/v1/addurl", API.V1.add_with_url, method = GET)
   route("$defaultroute/api/v1/addurldev", API.V1.add_with_url_dev, method = GET)
 end
 
@@ -101,6 +101,7 @@ using Genie
 using Genie.Renderer.Json
 using Genie.HTTPUtils.HTTP
 using Pkg
+using Base64
 
 function add()
   try
@@ -137,7 +138,7 @@ function add_with_url()
   try
     giturl = String(base64decode(params(:url)))
     Pkg.add(url=giturl)
-    return Dict(:status => "ok", :message => "Package $url added") |> json
+    return Dict(:status => "ok", :message => "Package $giturl added") |> json
   catch e
     return Dict("error" => e) |> json
   end
@@ -147,7 +148,7 @@ function add_with_url_dev()
   try
     giturl = String(base64decode(params(:url)))
     Pkg.develop(url=giturl)
-    return Dict(:status => "ok", :message => "Package $url added") |> json
+    return Dict(:status => "ok", :message => "Package $giturl added") |> json
   catch e
     return Dict("error" => e) |> json
   end
