@@ -1,6 +1,5 @@
 const indexlist = "/geniepackagemanager/list"
 const packageManagerBaseUrl = "/geniepackagemanager/api/v1/"
-const githosts = ["github", "gitlab", "bitbucket"]
 
 const { createApp, ref } = Vue;
 
@@ -86,31 +85,19 @@ const app = createApp({
                         let repoLink = this.toAddPackage;
                         let repoUrl = new URL(repoLink);
 
-                        // if toAddPackage is a github/gitlab link
+                        // if it's a http link
                         if (repoUrl.protocol == "https:" || repoUrl.protocol == "http:") {
-                            repoUrl = repoUrl.toString();
-                            let urlSplit = repoUrl.split("/");
-                            let packageName = urlSplit[urlSplit.length-1];
-                            let orgName = urlSplit[urlSplit.length-2];
-
-                            let githost = urlSplit[urlSplit.length-3];
-                            let mygithostname = githost.split(".")[0];
-
-                            let githostname = githosts.includes(mygithostname) ? mygithostname 
-                                                : pkgException("git error: host not found");
-
-                            let pkgSplit = packageName.split(".")
-                            let pkgName = pkgSplit[0];
+                            let encodedRepoUrl = btoa(repoUrl.toString() + ".jl")
 
                             if (this.dev == false){
                                 this.addHasClicked = true
-                                axios.post(packageManagerBaseUrl+ githostname + "/" + orgName+"/"+pkgName+"/addurl").then(response => {
+                                axios.get(packageManagerBaseUrl+ "addurl?url=" + encodedRepoUrl).then(response => {
                                     console.log(response);
                                     window.location.reload();
                                 })
                             }else{
                                 this.addHasClicked = true
-                                axios.post(packageManagerBaseUrl+ githostname + "/" + orgName+"/"+pkgName+"/addurldev").then(response => {
+                                axios.get(packageManagerBaseUrl+ "addurldev?url=" + encodedRepoUrl).then(response => {
                                     console.log(response);
                                     window.location.reload();
                                 })
