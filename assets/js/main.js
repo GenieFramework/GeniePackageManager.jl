@@ -87,17 +87,19 @@ const app = createApp({
 
                         // if it's a http link
                         if (repoUrl.protocol == "https:" || repoUrl.protocol == "http:") {
-                            let encodedRepoUrl = btoa(repoUrl.toString() + ".jl")
+                            let gitLink = repoUrl.toString()
+                            gitLink = gitLink.endsWith(".git") ? gitLink : gitLink + ".jl"
+                            let uriBaseEncodedRepoLink = encodeURIComponent(btoa(gitLink))
 
                             if (this.dev == false){
                                 this.addHasClicked = true
-                                axios.get(packageManagerBaseUrl+ "addurl?url=" + encodedRepoUrl).then(response => {
+                                axios.get(packageManagerBaseUrl+ "addurl?url=" + uriBaseEncodedRepoLink).then(response => {
                                     console.log(response);
                                     window.location.reload();
                                 })
                             }else{
                                 this.addHasClicked = true
-                                axios.get(packageManagerBaseUrl+ "addurldev?url=" + encodedRepoUrl).then(response => {
+                                axios.get(packageManagerBaseUrl+ "addurldev?url=" + uriBaseEncodedRepoLink).then(response => {
                                     console.log(response);
                                     window.location.reload();
                                 })

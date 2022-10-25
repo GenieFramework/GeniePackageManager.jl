@@ -1,12 +1,9 @@
 module GeniePackageManager
 
 using Genie
-using Genie.Renderer.Html
 using Genie.Renderer.Json
 using Genie.HTTPUtils.HTTP
 using Pkg
-using TOML
-using Random
 
 const PKGLISTURL = "https://raw.githubusercontent.com/JuliaRegistries/General/master/Registry.toml"
 
@@ -40,7 +37,6 @@ function register_routes(defaultroute = defaultroute)
   end
 
   route("$defaultroute/list", list_packages)
-  route("$defaultroute/packages", get_packages)
 
   # REST ENDPOINTS
   route("$defaultroute/api/v1/:package::String/add", API.V1.add, method = POST)
@@ -79,18 +75,6 @@ function list_packages()
   end
 
   return installs |> json
-end
-
-function get_packages() :: Dict{String,Any}
-  try
-    withcache(randstring(12), 24 * 60 * 60) do
-      Dict("packages" =>
-          [package_info["name"] for package_info in values(((HTTP.get(PKGLISTURL).body |> String) |> TOML.parse)["packages"])]
-      ) |> json
-    end
-  catch e
-    return Dict("error" => e) |> json
-  end
 end
 
 module API
