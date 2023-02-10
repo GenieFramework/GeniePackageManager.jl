@@ -1,5 +1,8 @@
-const indexlist = "/geniepackagemanager/list"
-const packageManagerBaseUrl = "/geniepackagemanager/api/v1/"
+const currentUrl = window.location.href
+const hostUrl = str.split('geniepackagemanager')[0];
+
+const indexlist = hostUrl + "geniepackagemanager/list"
+const packageManagerBaseUrl = hostUrl + "geniepackagemanager/api/v1/"
 
 const { createApp, ref } = Vue;
 
