@@ -11,26 +11,6 @@ const defaultroute = "/geniepackagemanager"
 
 viewpath = abspath(joinpath(@__DIR__, "..", "views", "index.html"))
 
-const assets_config = Genie.Assets.AssetsConfig(package = "GeniePackageManager.jl")
-
-function deps_routes() :: Nothing
-  if !Genie.Assets.external_assets(assets_config)
-
-    Genie.Router.route(Genie.Assets.asset_route(assets_config, :css, file="style")) do
-      Genie.Renderer.WebRenderable(
-        Genie.Assets.embedded(Genie.Assets.asset_file(cwd=normpath(joinpath(@__DIR__, "..")), type="css", file="style")),
-        :css) |> Genie.Renderer.respond
-    end
-
-    Genie.Router.route(Genie.Assets.asset_route(assets_config, :js, file="main")) do
-      Genie.Renderer.WebRenderable(
-        Genie.Assets.embedded(Genie.Assets.asset_file(cwd=normpath(joinpath(@__DIR__, "..")), type="js", file="main")),
-        :javascript) |> Genie.Renderer.respond
-    end
-  end
-  nothing
-end
-
 function register_routes(defaultroute = defaultroute)
   route("$defaultroute") do
     serve_file(viewpath)
