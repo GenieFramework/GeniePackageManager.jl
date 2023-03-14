@@ -36,15 +36,15 @@ function list_packages()
 
   for (uuid, dep) in deps
     dep.is_direct_dep || continue
-    dep.version === nothing && continue
-    dep.source === nothing && continue
     moddevdir = false
     
     if haskey(ENV, "JULIA_PKG_DEVDIR")
       moddevdir = true
     end
 
-    if moddevdir && occursin(ENV["JULIA_PKG_DEVDIR"], dep.source)
+    if dep.version === nothing
+      installs[dep.name] = ["", ""]
+    elseif moddevdir && occursin(ENV["JULIA_PKG_DEVDIR"], dep.source)
       installs[dep.name] = [dep.version, "dev"]
     elseif !moddevdir && !isempty(findall(x -> x == "dev", splitpath(dep.source)))
       installs[dep.name] = [dep.version, "dev"]

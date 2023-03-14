@@ -242,7 +242,8 @@
       <div class="container">
         <ul class="list-group container" v-for="(info, packageName) in results">
           <li class="list-group-item active">
-              <div class="child-label"> {{ packageName }} | v{{ info[0] }} | {{ info[1] }}</div>
+              <div class="child-label"> {{ packageName }}
+                <div v-if="info[0] != ''"><span>&nbsp;</span> | v{{ info[0] }} | {{ info[1] }}</div></div>
               <div class="tiny child-button button-group">
                 <mygbutton
                   v-on:confirm="updatePackage(packageName)"
