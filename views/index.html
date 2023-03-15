@@ -180,7 +180,7 @@
   <div id="app">
     <div class="container-fluid">
       <div class="container px-0">
-      <form class="parent">
+      <form v-on:submit.prevent="noFormSubmit" class="parent">
         <div class=" row">
             <div class="col-lg parent-install">
 
@@ -195,7 +195,9 @@
                         <input
                         type="text"
                         placeholder="type name/git url of package"
-                        v-model="toAddPackage"/>
+                        v-model="toAddPackage"
+                        v-on:keyup.enter="keyAddPackage"
+                        />
                       </div>
                       <!-- <div class="child-install">  -->
                         <input
@@ -328,6 +330,13 @@
 
           },
           methods: {
+              noFormSubmit(event) {
+                  event.preventDefault()
+              },
+              keyAddPackage(event) {
+                  this.addHasClicked = false
+                  this.addPackage()
+              },
               addPackage() {
                   if (this.addHasClicked == false) {
                       // if package contains @ split it by packageName and version
