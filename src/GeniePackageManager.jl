@@ -4,12 +4,11 @@ using Genie
 using Genie.Renderer.Json
 using Genie.HTTPUtils.HTTP
 using Pkg
+using Base64
 
 const PKGLISTURL = "https://raw.githubusercontent.com/JuliaRegistries/General/master/Registry.toml"
-
 const defaultroute = "/geniepackagemanager"
-
-viewpath = abspath(joinpath(@__DIR__, "..", "views", "index.html"))
+const viewpath = abspath(joinpath(@__DIR__, "..", "views", "index.html"))
 
 function register_routes(defaultroute = defaultroute)
   route("$defaultroute") do
@@ -19,15 +18,19 @@ function register_routes(defaultroute = defaultroute)
   route("$defaultroute/list", list_packages)
 
   # REST ENDPOINTS
-  route("$defaultroute/api/v1/:package::String/add", API.V1.add, method = POST)
-  route("$defaultroute/api/v1/:package::String/:version::String/add", API.V1.add_with_version, method = POST)
-  route("$defaultroute/api/v1/:package::String/dev", API.V1.dev, method = POST)
-  route("$defaultroute/api/v1/:package::String/remove", API.V1.remove_package, method = POST)
-  route("$defaultroute/api/v1/:package::String/update", API.V1.update_package, method = POST)
+  route("$defaultroute/:package::String/add", add, method = POST)
+  route("$defaultroute/:package::String/:version::String/add", add_with_version, method = POST)
+  route("$defaultroute/:package::String/dev", dev, method = POST)
+  route("$defaultroute/:package::String/remove", remove_package, method = POST)
+  route("$defaultroute/:package::String/update", update_package, method = POST)
 
-  route("$defaultroute/api/v1/updateall", API.V1.update_all_packages, method = GET)
-  route("$defaultroute/api/v1/addurl", API.V1.add_with_url, method = GET)
-  route("$defaultroute/api/v1/addurldev", API.V1.add_with_url_dev, method = GET)
+  route("$defaultroute/updateall", update_all_packages)
+  route("$defaultroute/addurl", add_with_url)
+  route("$defaultroute/addurldev", add_with_url_dev)
+
+  Genie.Configuration.isdev() && route("$defaultroute/exit", () -> exit(0))
+
+  nothing
 end
 
 function list_packages()
@@ -37,7 +40,7 @@ function list_packages()
   for (uuid, dep) in deps
     dep.is_direct_dep || continue
     moddevdir = false
-    
+
     if haskey(ENV, "JULIA_PKG_DEVDIR")
       moddevdir = true
     end
@@ -51,21 +54,10 @@ function list_packages()
     else
       installs[dep.name] = [dep.version, ""]
     end
-
   end
 
   return installs |> json
 end
-
-module API
-
-module V1
-
-using Genie
-using Genie.Renderer.Json
-using Genie.HTTPUtils.HTTP
-using Pkg
-using Base64
 
 function add()
   try
@@ -147,6 +139,4 @@ function update_all_packages()
   end
 end
 
-end # module V1
-end # module API
 end # module GeniePackageManager
