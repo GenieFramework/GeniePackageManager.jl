@@ -20,8 +20,8 @@
         font-size:15px;
       }
 
-      html{ 
-        margin: 0 !important; 
+      html{
+        margin: 0 !important;
         padding:0!important;
         background-color: #F9F8F6;
       }
@@ -87,7 +87,7 @@
         box-shadow: none;
         color: #0a0a0a;
         margin-left:0!important;
-        padding-right:0!important; 
+        padding-right:0!important;
         margin-right:0!important;
       }
 
@@ -97,7 +97,7 @@
         padding: 1rem;
         display:flex;
         justify-content:space-between;
-        
+
 
       }
       .list-group-item.active{
@@ -255,7 +255,7 @@
                   confirm_label="Confirm Update"
                   cancel_label="Cancel"
                 ></mygbutton>
-              
+
                 <mygbutton
                   v-on:confirm="removePackage(packageName)"
                   :ref="'remove_button_' + packageName"
@@ -280,7 +280,7 @@
       const hostUrl = currentUrl.split('geniepackagemanager')[0];
 
       const indexlist = hostUrl + "geniepackagemanager/list"
-      const packageManagerBaseUrl = hostUrl + "geniepackagemanager/api/v1/"
+      const packageManagerBaseUrl = hostUrl + "geniepackagemanager/"
 
       const { createApp, ref } = Vue;
 
@@ -344,7 +344,7 @@
                               const pkgSplit = this.toAddPackage.split("@");
                               let toAddPackage = pkgSplit[0];
                               let version = pkgSplit[1];
-                              
+
                               // turn addHasClicked to true
                               this.addHasClicked = true
                               axios.post(packageManagerBaseUrl+toAddPackage+"/"+version+"/add").then(response => {
