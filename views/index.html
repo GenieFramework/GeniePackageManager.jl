@@ -455,6 +455,35 @@
               }
           },
           mounted() {
+              // Enable keyboard shortcuts (otherwise blocked by vscode)
+              document.addEventListener('keydown', e => {
+                if( e.ctrlKey || e.metaKey ){
+                  switch( e.key ){
+                    case "z":
+                      e.preventDefault();
+                      if( e.shiftKey)
+                        document.execCommand("redo");
+                      else
+                        document.execCommand("undo");
+                      break;
+                    case "c":
+                      e.preventDefault();
+                      document.execCommand("copy");
+                      break;
+                    case "v":
+                      e.preventDefault();
+                      document.execCommand("paste");
+                      break;
+                    case "x":
+                      e.preventDefault();
+                      document.execCommand("cut");
+                    case "a":
+                      e.preventDefault();
+                      document.execCommand("selectAll");
+                  }
+                }
+              });
+              
               axios.get(indexlist).then(response => {
                   console.log(response.data)
                   obj = response.data
