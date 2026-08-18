@@ -9,7 +9,7 @@ Genie = "c43c736e-a2d1-11e8-161f-af95117fbd1e"
 Pkg = "44cfe95a-1eb2-52ea-b672-e2afdf69b78f"
 
 [compat]
-Genie = "5"
+Genie = "5, 6"
 Pkg = "1"
 julia = "1.6"
 
